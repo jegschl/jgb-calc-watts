@@ -1,0 +1,96 @@
+.rayssa-calc-offgrid table.items input {
+    border: 0px solid #e7e7e7;
+    border-radius: 25px;
+    min-height: 40px;
+}
+
+.rayssa-calc-offgrid table.items [data-field="actions"] .delete i.far::before{
+    color: #0E2B3D !important;
+    font-size: 17px !important;
+    font-weight: 400;
+}
+
+.rayssa-calc-offgrid table.items [data-field="qty"] input{
+    width: 105px;
+    text-align: center;
+    color: var( --e-global-color-text );
+}
+
+.rayssa-calc-offgrid [data-field="power"] input {
+	width: 145px;
+    text-align: center;
+    color: var( --e-global-color-text );
+}
+
+.rayssa-calc-offgrid [data-field="hours-by-day"] input {
+	width: 180px;
+    text-align: center;
+    color: var( --e-global-color-text );
+}
+
+.rayssa-calc-offgrid > .actions{
+    text-align: center;
+}
+
+.rayssa-calc-offgrid #add-item-button {
+	background-color: #EC763E;
+	color: white;
+	padding: 8px 24px;
+	border-radius: 25px;
+}
+
+.rayssa-calc-offgrid #add-item-button span{
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 10px;
+
+}
+
+.rayssa-calc-offgrid table.items th{
+    color: #666;
+    margin: 0 0 15px;
+    text-transform: none;
+    font-weight: 400;
+    line-height: 26px;
+    font-size: 14px;
+}
+
+.rayssa-calc-offgrid .results-calculations{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.rayssa-calc-offgrid .calc-result{
+    background-color: #094B82;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    height: 46px;
+    margin-bottom: 15px;
+}
+
+.rayssa-calc-offgrid .results-calculations .capacity-results,
+.rayssa-calc-offgrid .results-calculations .panels-calculation,
+.rayssa-calc-offgrid .results-calculations .hourly-amperage-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.rayssa-calc-offgrid .results-calculations .capacity-results .calc-result{
+    /* width: 60px; */
+}
+
+
+.rayssa-calc-offgrid .hourly-amperage-container .calc-result{
+    font-size: 12px;
+}
+
+.rayssa-calc-offgrid .results-calculations .panels-calculation .step-1{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
