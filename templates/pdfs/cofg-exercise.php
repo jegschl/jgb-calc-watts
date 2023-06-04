@@ -51,7 +51,7 @@
         </thead>
 
         <tbody>
-            <?php foreach($dt['artifacts'] as $art){ ?>
+            <?php foreach($data['artifacts'] as $art){ ?>
             <tr>
                 <td><?= $art['name'] ?></td>
                 <td><?= $art['qty'] ?></td>

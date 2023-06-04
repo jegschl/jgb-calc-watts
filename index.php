@@ -327,10 +327,10 @@ use Spipu\Html2Pdf\Html2Pdf;
 function rayssa_gen_pdf($data){
 
     ob_start();
-    require_once __DIR__ . '/templates/pdfs/cofg-exercise.php';
+    include __DIR__ . '/templates/pdfs/cofg-exercise.php';
     $html = ob_get_clean();
 
-    $fields2r = rayssa_get_fields_to_replace();
+    $fields2r = rayssa_get_fields_to_replace_on_header();
 
     foreach( $fields2r as $k => $fld ){
         $html = str_replace($k,$data['contact'][$fld],$html);
@@ -349,7 +349,7 @@ function rayssa_gen_pdf($data){
     return $pp;
 }
 
-function rayssa_get_fields_to_replace(){
+function rayssa_get_fields_to_replace_on_header(){
     $f2r = [
         '{nombresApellidos}' => 'names',
         '{email}' => 'email',
