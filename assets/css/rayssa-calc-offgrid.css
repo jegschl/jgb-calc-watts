@@ -1,4 +1,5 @@
-.rayssa-calc-offgrid table.items input {
+.rayssa-calc-offgrid table.items input,
+.rayssa-calc-offgrid .contact-data-container .field input {
     border: 0px solid #e7e7e7;
     border-radius: 25px;
     min-height: 40px;
@@ -32,7 +33,8 @@
     text-align: center;
 }
 
-.rayssa-calc-offgrid #add-item-button {
+.rayssa-calc-offgrid #add-item-button,
+.rayssa-calc-offgrid .contact-data-container .field.submit button {
 	background-color: #EC763E;
 	color: white;
 	padding: 8px 24px;
@@ -67,7 +69,7 @@
     padding: 10px;
     border-radius: 10px;
     color: white;
-    height: 46px;
+    height: auto;
     margin-bottom: 15px;
 }
 
@@ -81,7 +83,10 @@
 }
 
 .rayssa-calc-offgrid .results-calculations .capacity-results .calc-result{
-    /* width: 60px; */
+    width: 45%;
+    font-size: 18px;
+    text-align: center;
+    padding: 18px;
 }
 
 
@@ -93,4 +98,17 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+}
+
+.rayssa-calc-offgrid .contact-data-container .field label{
+    width: 200px;
+}
+
+.rayssa-calc-offgrid .contact-data-container .field{
+    margin-bottom: 10px;
+}
+
+.rayssa-calc-offgrid .contact-data-container .field.financiamiento {
+    display: flex;
+    align-items: center;
 }
