@@ -316,5 +316,46 @@ function receive_send_exercise_request(WP_REST_Request $r){
 
         $content .= '<br><br>';
     }
-    $mail_sent_res = wp_mail($email,$subject,$content,$header);
+    $pp = rayssa_gen_pdf($dt);
+    $mail_sent_res = wp_mail($email,$subject,$content,$header,[$pp]);
+}
+
+require __DIR__.'/vendor/autoload.php';
+
+use Spipu\Html2Pdf\Html2Pdf;
+
+function rayssa_gen_pdf($data){
+
+    ob_start();
+    require_once __DIR__ . '/templates/pdfs/cofg-exercise.php';
+    $html = ob_get_clean();
+
+    $fields2r = rayssa_get_fields_to_replace();
+
+    foreach( $fields2r as $k => $fld ){
+        $html = str_replace($k,$data[$fld],$html);
+    }
+
+    $html2pdf = new Html2Pdf();
+
+    $html2pdf->writeHTML( $html );
+
+    $pbfn = wp_unique_id(date('YmdHis-')) . '.pdf';
+
+    $pp = __DIR__ . '/downloads/' . $pbfn;
+
+    $html2pdf->output( $pp, 'F' );
+
+    return $pp;
+}
+
+function rayssa_get_fields_to_replace(){
+    $f2r = [
+        '{nombresApellidos}' => 'names',
+        '{email}' => 'email',
+        '{telefono}' => 'phone',
+        '{financiamiento}' => 'finantial'
+    ];
+
+    return $f2r;
 }
