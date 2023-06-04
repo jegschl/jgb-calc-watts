@@ -113,6 +113,8 @@
     align-items: center;
 }
 
-.rayssa-calc-offgrid .contact-data-container .field.submit{
+.rayssa-calc-offgrid .contact-data-container .field.submit,
+.rayssa-calc-offgrid .contact-data-container .field input[type="text"]
+{
     text-align: center;
 }

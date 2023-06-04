@@ -193,10 +193,17 @@ jQuery( function( $ ) {
         }
 
         getDataToSend(){
+            let finantial;
+            if( $('#cofg-finances').is(":checked") ){
+                finantial = 'Si';
+            } else {
+                finantial = 'No';
+            }
             this.#dts.contact = {
                 'names': $('#cofg-names').val(),
                 'email': $('#cofg-email').val(),
-                'phone': $('#cofg-phone').val()
+                'phone': $('#cofg-phone').val(),
+                'finantial':  finantial
             };
            return this.#dts;
 

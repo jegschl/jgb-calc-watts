@@ -333,7 +333,7 @@ function rayssa_gen_pdf($data){
     $fields2r = rayssa_get_fields_to_replace();
 
     foreach( $fields2r as $k => $fld ){
-        $html = str_replace($k,$data[$fld],$html);
+        $html = str_replace($k,$data['contact'][$fld],$html);
     }
 
     $html2pdf = new Html2Pdf();
