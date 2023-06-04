@@ -53,30 +53,32 @@
         <span class="value"></span>
         <span class="unit">Watt/h</span>
       </div>
+
+      <div class="calc-result hourly-amperage-container">
+        <div class="amp-12v">
+          <span class="title">12v:</span>
+          <span class="value"></span>
+          <span class="unit">ah</span>
+        </div>
+
+        <div class="amp-24v">
+          <span class="title">24v:</span>
+          <span class="value"></span>
+          <span class="unit">ah</span>
+        </div>
+
+        <div class="amp-48v">
+          <span class="title">48v:</span>
+          <span class="value"></span>
+          <span class="unit">ah</span>
+        </div>
+      </div>
       
     </div>
 
     
 
-    <div class="hourly-amperage-container">
-      <div class="calc-result amp-12v">
-        <span class="title">12v:</span>
-        <span class="value"></span>
-        <span class="unit">ah</span>
-      </div>
-
-      <div class="calc-result amp-24v">
-        <span class="title">24v:</span>
-        <span class="value"></span>
-        <span class="unit">ah</span>
-      </div>
-
-      <div class="calc-result amp-48v">
-        <span class="title">48v:</span>
-        <span class="value"></span>
-        <span class="unit">ah</span>
-      </div>
-    </div>
+    
 
     <div class="panels-calculation">
       <div class="step-1">
@@ -132,6 +134,10 @@
       </div>
     </div>
 
+
+
+
+    
     <div class="contact-data-container">
       <div class="field names">
         <label for="cofg-field-names">Nombres y apellidos</label>
@@ -142,8 +148,12 @@
         <input type="text" id="cofg-email">
       </div>
       <div class="field phone">
-        <label for="cofg-field-names">Teléfono</label>
+        <label for="cofg-phone">Teléfono</label>
         <input type="text" id="cofg-phone">
+      </div>
+      <div class="field financiamiento">
+        <label for="cofg-finances">Interesado en financiamiento</label>
+        <input type="checkbox" id="cofg-finances">
       </div>
       <div class="field submit">
         <button class="submit">Enviar</button>
