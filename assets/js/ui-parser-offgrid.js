@@ -4,6 +4,7 @@ jQuery( function( $ ) {
     class OffgridUiParser{
         #rootEl = '';
         #tblItmsEl = '';
+        #cieANm = '';
         #cieQty = ''; //cie = child input element
         #ciePwr = '';
         #cieDuh = '';
@@ -37,6 +38,7 @@ jQuery( function( $ ) {
         constructor(){
             this.#rootEl = '.rayssa-calc-offgrid';
             this.#tblItmsEl = this.#rootEl + ' table.items tbody';
+            this.#cieANm = 'td[data-field="artifact"] select'
             this.#cieQty = 'td[data-field="qty"] input';
             this.#ciePwr = 'td[data-field="power"] input';
             this.#cieDuh = 'td[data-field="hours-by-day"] input';
@@ -81,7 +83,13 @@ jQuery( function( $ ) {
             this.#artifacts = [];
             for( i = 0; i < trs.length; i++){
                 
+                atfItmObj = {};
+                
                 currRow = trs[i];
+
+                currInput = $(currRow).find(this.#cieANm);
+                currInput = $(currInput).find(':selected');
+                atfItmObj.name = $(currInput).text();
                 
                 currInput = $(currRow).find(this.#cieQty);
                 qty = parseInt( $(currInput).val() );
