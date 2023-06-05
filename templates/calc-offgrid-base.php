@@ -104,32 +104,42 @@
       <div class="step-2 panels-count-container">
         <div class="calc-result panel-count 335-340w">
           <span class="title">Panel 335/340w: </span>
-          <span class="value"></span>
-          <span class="unit">unidades</span>
+          <div class="value-ctnr">
+            <span class="value"></span>
+            <span class="unit">unidades</span>
+          </div>
         </div>
 
         <div class="calc-result panel-count 445-450w">
           <span class="title">Panel 445/450w: </span>
-          <span class="value"></span>
-          <span class="unit">unidades</span>
+          <div class="value-ctnr">
+            <span class="value"></span>
+            <span class="unit">unidades</span>
+          </div>
         </div>
 
         <div class="calc-result panel-count 550-560w">
           <span class="title">Panel 550/560w: </span>
-          <span class="value"></span>
-          <span class="unit">unidades</span>
+          <div class="value-ctnr">
+            <span class="value"></span>
+            <span class="unit">unidades</span>
+          </div>
         </div>
 
         <div class="calc-result panel-count 600-610w">
           <span class="title">Panel 600/610w: </span>
-          <span class="value"></span>
-          <span class="unit">unidades</span>
+          <div class="value-ctnr">
+            <span class="value"></span>
+            <span class="unit">unidades</span>
+          </div>
         </div>
 
         <div class="calc-result panel-count 650-660w">
           <span class="title">Panel 650/660w: </span>
-          <span class="value"></span>
-          <span class="unit">unidades</span>
+          <div class="value-ctnr">
+            <span class="value"></span>
+            <span class="unit">unidades</span>
+          </div>
         </div>
       </div>
     </div>
@@ -137,7 +147,7 @@
 
 
 
-    
+
     <div class="contact-data-container">
       <div class="field names">
         <label for="cofg-field-names">Nombres y apellidos</label>
@@ -152,8 +162,8 @@
         <input type="text" id="cofg-phone">
       </div>
       <div class="field financiamiento">
-        <label for="cofg-finances">Interesado en financiamiento</label>
         <input type="checkbox" id="cofg-finances">
+        <label for="cofg-finances">Interesado en financiamiento</label>
       </div>
       <div class="field submit">
         <button class="submit">Enviar</button>
