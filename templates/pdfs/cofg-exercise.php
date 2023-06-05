@@ -1,39 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Solicitud Rayssa</title>
-</head>
-<body>
+<style>
+    .logo img{
+        width: 120px;
+        height: auto;
+    }
+
+    h1,h2{
+        text-align: center;
+    }
+
+    .contact-data th td{
+        color: #7A7A7A;
+    }
+
+    .contact-data td{
+        padding: 5px;
+    }
+
+    .contact-data-table-wrapper{
+        text-align: center;
+    }
+
+</style>
+<page>
     <div class="logo">
-        <img src="http://rayssa.local/wp-content/uploads/2023/04/LogoRayssa.png" width="90px">
+        <img src="http://rayssa.local/wp-content/uploads/2023/04/LogoRayssa.png">
     </div>
 
-    <h1>Solicitud de OffGrid</h1>
+    <h1>Solicitud de cálculo OffGrid</h1>
 
     <h2>Datos del solicitante</h2>
-    <div class="contact-data">
-        <div class="field">
-            <div class="label">Nombres y apellidos</div>
-            <div class="value">{nombresApellidos}</div>
-        </div>
-
-        <div class="field">
-            <div class="label">Email</div>
-            <div class="value">{email}</div>
-        </div>
-
-        <div class="field">
-            <div class="label">Nro. telefónico</div>
-            <div class="value">{telefono}</div>
-        </div>
-
-        <div class="field">
-            <div class="label">Está interesado en financiamiento</div>
-            <div class="value">{financiamiento}</div>
-        </div>
-    </div>
+    <center><div class="contact-data-table-wrapper">
+        <table class="contact-data">
+            <thead>
+                <tr>
+                    <td>Nombres y apellidos</td>
+                    <td>Email</td>
+                    <td>Nro. telefónico</td>
+                    <td>Financiamiento</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>{nombresApellidos}</strong></td>
+                    <td><strong>{email}</strong></td>
+                    <td><strong>{telefono}</strong></td>
+                    <td><strong>{financiamiento}</strong></td>
+                </tr>
+            </tbody>
+            
+        </table>
+    </div></center>
 
 
     <h2>Lista de artefactos</h2>
@@ -51,15 +67,10 @@
         </thead>
 
         <tbody>
-            <?php foreach($data['artifacts'] as $art){ ?>
-            <tr>
-                <td><?= $art['name'] ?></td>
-                <td><?= $art['qty'] ?></td>
-                <td><?= $art['pwr'] ?></td>
-                <td><?= $art['duh'] ?></td>
-            </tr>
-            <?php } ?>
+            <?php foreach($args['artifacts'] as $art){ 
+                do_action('rayssa_pdf_exercise_item',$art);
+            }
+            ?>
         </tbody>
     </table>
-</body>
-</html>
+</page>
