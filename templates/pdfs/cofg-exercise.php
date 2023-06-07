@@ -20,6 +20,10 @@
         text-align: center;
     }
 
+    table.results{
+        width: 100%;
+    }
+
 </style>
 <page>
     <div class="logo">
@@ -29,7 +33,7 @@
     <h1>Solicitud de cálculo OffGrid</h1>
 
     <h2>Datos del solicitante</h2>
-    <center><div class="contact-data-table-wrapper">
+    <div class="contact-data-table-wrapper">
         <table class="contact-data">
             <thead>
                 <tr>
@@ -49,11 +53,11 @@
             </tbody>
             
         </table>
-    </div></center>
+    </div>
 
 
     <h2>Lista de artefactos</h2>
-    <table>
+    <table class="artifacts">
 
         <thead>
             <tr>
@@ -71,6 +75,69 @@
                 do_action('rayssa_pdf_exercise_item',$art);
             }
             ?>
+        </tbody>
+    </table>
+
+    <?php
+
+    $consumoDiario = number_format( $args['daylyConsumtion'], 2, ",","." );
+    $pwrPicoNecsr  = number_format( $args['peakPowerRequired'], 2, ",","." );
+
+    ?>
+
+    <h2>Resultados del cálculo</h2>
+    <table class="results">
+        <tbody>
+            <tr>
+                <td class="calc-result daylytotalKWatts">
+                    
+                        <span class="title">Consumo diario:</span>
+                        <span class="value"><?= $consumoDiario ?></span>
+                        <span class="unit">KW/h día</span>
+
+                    
+                </td>
+                <td class="calc-result nominalCapacity">
+                    
+                        <span class="title">Capacidad neta:</span>
+                        <span class="value"><?= number_format( $args['nominalCap'], 2, ",","." ) ?></span>
+                        <span class="unit">KWatt</span>
+                    
+                </td>
+            </tr>
+
+            <tr>
+                <td class="calc-result bruteCapacity">
+                    
+                        <span class="title">Capacidad bruta:</span>
+                        <span class="value"><?= number_format( $args['bruteCap'], 2, ",","." ) ?></span>
+                        <span class="unit">KW/h día</span>
+                   
+                    
+                </td>
+                <td class="calc-result hourly-amperage-container">
+                    
+                        <div class="amp-12v">
+                            <span class="title">12v:</span>
+                            <span class="value"><?= number_format( $args['ha12v'], 2, ",","." ) ?></span>
+                            <span class="unit">ah</span>
+                        </div>
+
+                        <div class="amp-24v">
+                            <span class="title">24v:</span>
+                            <span class="value"><?= number_format( $args['ha24v'], 2, ",","." ) ?></span>
+                            <span class="unit">ah</span>
+                        </div>
+
+                        <div class="amp-48v">
+                            <span class="title">48v:</span>
+                            <span class="value"><?= number_format( $args['ha48v'], 2, ",","." ) ?></span>
+                            <span class="unit">ah</span>
+                        </div>
+                  
+                </td>
+            </tr>
+
         </tbody>
     </table>
 </page>
