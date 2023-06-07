@@ -35,7 +35,7 @@ jQuery( function( $ ) {
         #dts = {}; // data to send to emails.
         #artifacts = [];
 
-        constructor(){
+        constructor( cfg ){
             this.#rootEl = '.rayssa-calc-offgrid';
             this.#tblItmsEl = this.#rootEl + ' table.items tbody';
             this.#cieANm = 'td[data-field="artifact"] select'
@@ -61,9 +61,9 @@ jQuery( function( $ ) {
             this.#pc600_610wEl = this.#rootEl + ' .panels-count-container .600-610w span.value';
             this.#pc650_660wEl = this.#rootEl + ' .panels-count-container .650-660w span.value';
 
-            this.#autonomia = 2;
-            this.#dod = 55/100;
-            this.#efficiency = 0.86;
+            this.#autonomia    = cfg.autonomia == undefined ? 2 : cfg.autonomia;
+            this.#dod          = cfg.dod == undefined ? 55/100 : cfg.dod;
+            this.#efficiency   = cfg.eficiencia == undefined ? 0.86 : cfg.eficiencia;
         }
 
         calculate(){
@@ -133,6 +133,7 @@ jQuery( function( $ ) {
             $(this.#nmcapEl).text(nominalCap.toFixed(2));
             $(this.#brCapEl).text(bruteCap.toFixed(2));
 
+            this.#dts.daylyConsumtion = this.#twbd / 1000;
             this.#dts.totalWattsByMonth = this.#twbm;
             this.#dts.nominalCap = nominalCap;
             this.#dts.bruteCap = bruteCap;
@@ -150,7 +151,10 @@ jQuery( function( $ ) {
             this.readHsp();
             if( this.#hsp != 0 ){
                 this.#peakPowerRequired = nominalCap / (this.#efficiency * this.#hsp);
+                this.#dts.peakPowerRequired = this.#peakPowerRequired;
+                
                 $(this.#pPwrREl).text(this.#peakPowerRequired.toFixed(2));
+                
 
                 pcc = this.#peakPowerRequired * 1000 / 335;
                 pcc = Math.ceil( pcc );
@@ -219,6 +223,6 @@ jQuery( function( $ ) {
     }
 
     $(document).ready(function(){
-        calcOffGridUIParser = new OffgridUiParser;
+        calcOffGridUIParser = new OffgridUiParser( RAYSSA_CALC_OFFGRID.calcConfig );
     });
 });

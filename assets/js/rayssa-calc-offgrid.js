@@ -83,13 +83,19 @@ jQuery( function( $ ) {
                 url: RAYSSA_CALC_OFFGRID.sndExcrsURL,
                 accepts: 'application/json; charset=UTF-8',
 				contentType: 'application/json; charset=UTF-8',
-                complete: ( jqXHR, textStatus )=>{},
+                complete: ( jqXHR, textStatus )=>{
+                    $.unblockUI();
+                },
 				success: ( data,  textStatus,  jqXHR )=>{},
 				error: ( jqXHR, textStatus, errorThrown )=>{}
             };
 
             $.ajax(ac);
         });
+
+        $('.rayssa-calc-offgrid .contact-data-container .field.submit button').click(function() { 
+            $.blockUI({ message: $('#rayssa-processing-msg') }); 
+        }); 
 
     });
 

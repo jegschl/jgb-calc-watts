@@ -209,9 +209,17 @@ function rayssa_enqueue_scripts(){
     );
 
     wp_enqueue_script(
+        'rayssa-jq-blockui-js',
+        plugin_dir_url(__FILE__) . 'assets/js/jquery-blockui-2.70.0.js',
+        array('jquery'),
+        '2.70.0',
+        true
+    );
+
+    wp_enqueue_script(
         'rayssa-calc-offgrid-js',
         plugin_dir_url(__FILE__) . 'assets/js/rayssa-calc-offgrid.js',
-        array('jquery', 'jquery-ui-sortable','rayssa-select2-js','ui-parser-offgrid-js'),
+        array('jquery', 'jquery-ui-sortable','rayssa-select2-js','ui-parser-offgrid-js','rayssa-jq-blockui-js'),
         '1.0.0',
         true
     );
@@ -224,13 +232,20 @@ function rayssa_enqueue_scripts(){
     ob_start();
     rayssa_load_template('artifact-item',$atts);
     $artfct_item_tpl = ob_get_clean();
+
+    $calc_config = [
+        'autonomia'  => apply_filters('rayssa_calc_cfg_autonomia',2),
+        'dod'        => apply_filters('rayssa_calc_cfg_dod',55/100),
+        'eficiencia' => apply_filters('rayssa_calc_cfg_eficiancia',0.86)
+    ];
     
     $prms = array(
         'rootSelector'      => '.rayssa-calc-offgrid',
         'exersizeURL'       => '',
         'artifactItemTpl'   => $artfct_item_tpl,
         'artfctsDemo'       => $artfcts_demo,
-        'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/')
+        'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
+        'calcConfig'        => $calc_config
     );
 
     wp_localize_script('rayssa-calc-offgrid-js','RAYSSA_CALC_OFFGRID',$prms);
@@ -316,13 +331,14 @@ function receive_send_exercise_request(WP_REST_Request $r){
 
         $content .= '<br><br>';
     }
-    $pp = rayssa_gen_pdf($dt);
-    $mail_sent_res = wp_mail($email,$subject,$content,$header,[$pp]);
+
+    require_once __DIR__ . '/rayssa-mp-mangr.php';
+    $rmm = new RayssaMailPdf();
+    $rmm->process_request($dt);
+    
 }
 
-require __DIR__.'/vendor/autoload.php';
 
-use Spipu\Html2Pdf\Html2Pdf;
 
 function rayssa_gen_pdf($data){
 

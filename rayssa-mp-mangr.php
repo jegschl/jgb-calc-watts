@@ -20,7 +20,12 @@ class RayssaMailPdf{
         $this->html2pdf = new Html2Pdf('P','LETTER','es');
 
         add_action('rayssa_pdf_exercise_item', [$this,'pdf_item_lt_and_fv']);
-    
+        add_action('rayssa_email_content_header', [$this,'email_content_header']);
+        add_action('rayssa_email_content_body', [$this,'email_content_body']);
+        add_action('rayssa_email_content_footer', [$this,'email_content_footer']);
+        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_contact']);
+        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_artifacts_items']);
+        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_calc_results']);
     }
 
     private function pdf_download_path(){
@@ -61,18 +66,6 @@ class RayssaMailPdf{
         return $f2r;
     }
 
-    private function get_fields_map_for_items(){
-        $f2r = [
-            '{nombreArtefacto}' => 'name',
-            '{cantidad}'        => 'qty',
-            '{potencia}'        => 'duh'
-        ];
-
-        $f2r = apply_filters('rayssa_fields_maps_for_items',$f2r);
-    
-        return $f2r;
-    }
-
     private function get_fields_map_for_results(){
         $f2r = [
             '{nombreArtefacto}' => 'name',
@@ -95,7 +88,9 @@ class RayssaMailPdf{
         $flds_map = $this->get_fields_map_for_results();
 
         foreach( $flds_map as $ktr => $dak ){
-            $this->pdf_html_tpl_src = str_replace( $ktr, $this->contact[ $dak ], $this->pdf_html_tpl_src);
+            if( isset( $this->contact[ $dak ] ) ){
+                $this->pdf_html_tpl_src = str_replace( $ktr, $this->contact[ $dak ], $this->pdf_html_tpl_src);
+            }
         }
     }
 
@@ -103,7 +98,7 @@ class RayssaMailPdf{
 
         $path_prefix = $this->pdf_download_path();
 
-        $this->pdf_generated_file_path = wp_unique_id( $path_prefix . date( 'YmdHis-' ) ) . '.pdf';
+        $this->pdf_generated_file_path = uniqid( $path_prefix . date( 'ymdHis-' ) ) . '.pdf';
 
         $this->pdf_load_template();
 
@@ -127,7 +122,7 @@ class RayssaMailPdf{
         }
 
         ob_start();
-        load_template($template,false,['artifacts'=>$this->artifacts]);
+        load_template($template,false,$this->data);
         $this->pdf_html_tpl_src = ob_get_clean();
 
     }
@@ -143,15 +138,143 @@ class RayssaMailPdf{
     }
 
     private function email_header(){
-
+        $header = array('Content-Type: text/html; charset=UTF-8');
+        $header = apply_filters('rayssa_email_header_cofg',$header);
+        return $header;
     }
 
-    private function email_body(){
+    private function email_subject(){
+        $subject = "Rayssa.cl :: Solicitud de cálculo Off Grid";
+        $subject = apply_filters('rayssa_email_subject_cofg',$subject);
+        return $subject;
+    }
+
+    private function get_email_content_header_logo_url(){
+        $img_logo = 'http://rayssa.local/wp-content/uploads/2023/04/LogoRayssa.png';
+        $img_logo = apply_filters('rayssa_email_content_header_logo_url',$img_logo);
+        return $img_logo;
+    }
+
+    public function email_content_header(){
+        $tplp = 'rayssa/emails/html-content-header.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-content-header.php';
+        }
+
+        $args = [
+            'img-logo'=>$this->get_email_content_header_logo_url()
+        ];
+
+        ob_start();
+        load_template($template,false,$args);
+        echo ob_get_clean();
+    }
+
+    public function email_content_body(){
+        $tplp = 'rayssa/emails/html-content-body.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-content-body.php';
+        }
+
+        $args = [
+            'content-title' => 'Cálculo Off Grid'
+        ];
+
+        ob_start();
+        load_template($template,false,$args);
+        echo ob_get_clean();
+    }
+
+    public function email_content_footer(){
+        $tplp = 'rayssa/emails/html-content-footer.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-content-footer.php';
+        }
+
+        ob_start();
+        load_template($template,false);
+        echo ob_get_clean();
+    }
+
+    public function email_content_data_contact(){
+        $tplp = 'rayssa/emails/html-cofg-contact.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-cofg-contact.php';
+        }
+
+        ob_start();
+        load_template($template,false,$this->contact);
+        echo ob_get_clean();
+    }
+
+    public function email_content_data_artifacts_items(){
+        $tplp = 'rayssa/emails/html-cofg-artifacts-itms.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-cofg-artifacts-itms.php';
+        }
+
+        ob_start();
+        load_template($template,false,$this->artifacts);
+        echo ob_get_clean();
+    }
+
+    public function email_content_data_calc_results(){
+        $tplp = 'rayssa/emails/html-cofg-calc-results.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-cofg-calc-results.php';
+        }
+
+        $cr = $this->data;
+        unset( $cr['artifacts'] );
+        unset( $cr['contact'] );
+
+        ob_start();
+        load_template($template,false,$cr);
+        echo ob_get_clean();
+    }
+
+    private function get_email_content_for_requester(){
+        $tplp = 'rayssa/emails/html-base.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-base.php';
+        }
+
+        $args = [
+            'subject'=>$this->email_subject()
+        ];
+
+        ob_start();
+        load_template($template,false,$args);
+        return ob_get_clean();
 
     }
 
     private function try_send_mails(){
-        //$mail_sent_res = wp_mail($email,$subject,$content,$header,[$pp]);
+        $header = $this->email_header();
+        $subject = $this->email_subject();
+        $email   = explode(',',$this->contact['email']);
+        $email   = apply_filters('rayssa_email_recipents',$email);
+        $pp      = $this->pdf_generated_file_path;
+        $content = $this->get_email_content_for_requester();
+        
+
+        $mail_sent_res = wp_mail($email,$subject,$content,$header,[$pp]);
+    
+        return $mail_sent_res;
     }
 
     public function process_request( $data ){

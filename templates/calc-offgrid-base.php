@@ -2,6 +2,10 @@
 
 ?>
 
+<div id="rayssa-processing-msg" style="display:none;"> 
+    <h1>Estamos enviando tu solicitud, agreadecemos tu paciencia.</h1> 
+</div>
+
 <div 
         id="<?= esc_attr($atts['id']); ?>" 
         class="rayssa-calc-offgrid" 
