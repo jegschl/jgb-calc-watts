@@ -20,8 +20,10 @@
         text-align: center;
     }
 
-    table.results{
-        width: 100%;
+    table.results td.calc-results{
+        text-align: center;
+        background-color: #094B82; 
+        color: #ffffff;
     }
 
 </style>
@@ -83,13 +85,14 @@
     $consumoDiario = number_format( $args['daylyConsumtion'], 2, ",","." );
     $pwrPicoNecsr  = number_format( $args['peakPowerRequired'], 2, ",","." );
 
+    $anchoCRCol = "350";
     ?>
 
     <h2>Resultados del cálculo</h2>
     <table class="results">
         <tbody>
             <tr>
-                <td class="calc-result daylytotalKWatts">
+                <td class="calc-result daylytotalKWatts" width="<?= $anchoCRCol ?>" style="background-color:lightblue; text-align: center; color: white;">
                     
                         <span class="title">Consumo diario:</span>
                         <span class="value"><?= $consumoDiario ?></span>
@@ -97,7 +100,7 @@
 
                     
                 </td>
-                <td class="calc-result nominalCapacity">
+                <td class="calc-result nominalCapacity" width="<?= $anchoCRCol ?>">
                     
                         <span class="title">Capacidad neta:</span>
                         <span class="value"><?= number_format( $args['nominalCap'], 2, ",","." ) ?></span>
@@ -107,7 +110,7 @@
             </tr>
 
             <tr>
-                <td class="calc-result bruteCapacity">
+                <td class="calc-result bruteCapacity" width="<?= $anchoCRCol ?>">
                     
                         <span class="title">Capacidad bruta:</span>
                         <span class="value"><?= number_format( $args['bruteCap'], 2, ",","." ) ?></span>
@@ -115,7 +118,7 @@
                    
                     
                 </td>
-                <td class="calc-result hourly-amperage-container">
+                <td class="calc-result hourly-amperage-container" width="<?= $anchoCRCol ?>">
                     
                         <div class="amp-12v">
                             <span class="title">12v:</span>
