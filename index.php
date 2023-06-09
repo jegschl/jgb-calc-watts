@@ -11,8 +11,16 @@ License: GPL2
 
 define('JGB_RAYSSA_APIREST_BASE_ROUTE','rayssa/');
 define('JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG','snd-excr');
+define('RAYSSA_TPL_SLG_CALC_OFFGRID','off-grid');
+define('RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS','artifact-item');
+define('RAYSSA_TPL_SLG_CALC_ONGRID','on-grid');
+define('RAYSSA_TPL_SLG_CALC_PRCD_RES_OK','procd-result-ok');
+define('RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL','procd-result-fail');
+
+require_once __DIR__.'/rayssa-ssn-mngr.php';
 
 add_filter('script_loader_tag', 'rayssa_add_type_attribute' , 10, 3);
+
 function rayssa_add_type_attribute($tag, $hnd, $src) {
     
     if ( 'rayssa-calc-offgrid' !== $hnd ) {
@@ -245,7 +253,9 @@ function rayssa_enqueue_scripts(){
         'artifactItemTpl'   => $artfct_item_tpl,
         'artfctsDemo'       => $artfcts_demo,
         'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
-        'calcConfig'        => $calc_config
+        'calcConfig'        => $calc_config,
+        'rayssaExcrcsSsnId' => $_SESSION['rayssa']['session']->get_session_id(),
+        'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID
     );
 
     wp_localize_script('rayssa-calc-offgrid-js','RAYSSA_CALC_OFFGRID',$prms);
@@ -253,19 +263,37 @@ function rayssa_enqueue_scripts(){
 
 function rayssa_load_template($tpl,$attrs=null){
     switch ($tpl) {
-        case 'artifact-item':
-            $template = locate_template( 'calc-offgrid-artifact-item' );
+        case RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS:
+            $template = locate_template( 'calc-offgrid-'.RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS.'.php' );
             if ( empty( $template ) ) {
                 // Template not found in theme's folder, use plugin's template as a fallback
-                $template = dirname( __FILE__ ) . '/templates/calc-offgrid-artifact-item.php';
+                $template = dirname( __FILE__ ) . '/templates/calc-offgrid-'.RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS.'.php';
             }
             break;
-        case 'on-grid':
+        case RAYSSA_TPL_SLG_CALC_ONGRID:
             # on-grid
-            $template = locate_template( 'calc-ongrid-base' );
+            $template = locate_template( 'calc-'.RAYSSA_TPL_SLG_CALC_ONGRID.'-base' );
             if ( empty( $template ) ) {
                 // Template not found in theme's folder, use plugin's template as a fallback
-                $template = dirname( __FILE__ ) . '/templates/calc-ongrid-base.php';
+                $template = dirname( __FILE__ ) . '/templates/calc-'.RAYSSA_TPL_SLG_CALC_ONGRID.'-base.php';
+            }
+            break;
+
+        case RAYSSA_TPL_SLG_CALC_PRCD_RES_OK:
+            # cálculo procesado ok
+            $template = locate_template( RAYSSA_TPL_SLG_CALC_PRCD_RES_OK );
+            if ( empty( $template ) ) {
+                // Template not found in theme's folder, use plugin's template as a fallback
+                $template = dirname( __FILE__ ) . '/templates/'. RAYSSA_TPL_SLG_CALC_PRCD_RES_OK . '.php';
+            }
+            break;
+
+        case RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL:
+            # cálculo procesado fallido
+            $template = locate_template( RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL );
+            if ( empty( $template ) ) {
+                // Template not found in theme's folder, use plugin's template as a fallback
+                $template = dirname( __FILE__ ) . '/templates/'.RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL.'.php';
             }
             break;
         
@@ -286,21 +314,38 @@ function rayssa_load_template($tpl,$attrs=null){
 
 // Registra el shortcode para mostrar el listado
 function rayssa_calc_offgrid_shortcode($atts) {
+    $sm = new RayssaExcerciseSsnMangr;
+    
     rayssa_enqueue_scripts();
+
     $hsp_region   = rayssa_get_hsp_data();
-    ob_start();
 
     // Obtén los atributos del shortcode (si los hay)
     $atts = shortcode_atts(array(
         'title' => 'Mi Listado',
         'category' => 'todos',
         'id' => 'rayssa-calc-orffgrid-root',
-        'hsp_region' => $hsp_region
+        'hsp_region' => $hsp_region,
+        'calc_type' => 'off-grid'
     ), $atts);
 
-    rayssa_load_template('off-grid',$atts);
+    switch( $sm->get_status() ){
+        case RAYSSA_EXCRCS_STTTS_PROCD_OK:
+            $tpl_nm = RAYSSA_TPL_SLG_CALC_PRCD_RES_OK;
+            break;
 
-    // Devuelve el contenido generado por el componente de ReactJS
+        case RAYSSA_EXCRCS_STTTS_PROCD_FAIL:
+            $tpl_nm = RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL;
+            break;
+
+        default:
+            $tpl_nm = $atts['calc_type'];
+    }
+
+    ob_start();
+
+    rayssa_load_template($tpl_nm,$atts);
+
     return ob_get_clean();
 }
 add_shortcode('rayssa_calculator_offgrid', 'rayssa_calc_offgrid_shortcode');
@@ -318,60 +363,18 @@ add_action('rest_api_init',function(){
 });
 
 function receive_send_exercise_request(WP_REST_Request $r){
+
     $dt = $r->get_json_params();
-    $email = $dt['contact']['email'];
-    $content = '';
-    $subject = 'Ejercicio de calculadora offgrid';
-    $header = array('Content-Type: text/html; charset=UTF-8');
-    foreach($dt['artifacts'] as $art){
-        $content .= 'Artefacto: ' . $art['name'] . '<br>';
-        $content .= 'Cantidad: ' . $art['qty'] . '<br>';
-        $content .= 'Potencia: ' . $art['pwr'] . '<br>';
-        $content .= 'Tiempo de uso diario: ' . $art['duh'] . '<br>';
-
-        $content .= '<br><br>';
-    }
-
+   
     require_once __DIR__ . '/rayssa-mp-mangr.php';
-    $rmm = new RayssaMailPdf();
-    $rmm->process_request($dt);
+
+    $rmm = new RayssaMailPdf( $_SESSION['rayssa']['session'] );
+
+    $esr = $rmm->process_request($dt);
+
+    $response = new WP_REST_Response( $esr );
+    $response->set_status( 200 );
+
+    return $response;
     
-}
-
-
-
-function rayssa_gen_pdf($data){
-
-    ob_start();
-    include __DIR__ . '/templates/pdfs/cofg-exercise.php';
-    $html = ob_get_clean();
-
-    $fields2r = rayssa_get_fields_to_replace_on_header();
-
-    foreach( $fields2r as $k => $fld ){
-        $html = str_replace($k,$data['contact'][$fld],$html);
-    }
-
-    $html2pdf = new Html2Pdf();
-
-    $html2pdf->writeHTML( $html );
-
-    $pbfn = wp_unique_id(date('YmdHis-')) . '.pdf';
-
-    $pp = __DIR__ . '/downloads/' . $pbfn;
-
-    $html2pdf->output( $pp, 'F' );
-
-    return $pp;
-}
-
-function rayssa_get_fields_to_replace_on_header(){
-    $f2r = [
-        '{nombresApellidos}' => 'names',
-        '{email}' => 'email',
-        '{telefono}' => 'phone',
-        '{financiamiento}' => 'finantial'
-    ];
-
-    return $f2r;
 }
