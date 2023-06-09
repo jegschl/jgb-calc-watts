@@ -1,9 +1,9 @@
 <?php
 
 require __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/rayssa-ssn-mngr.php';
 
 use Spipu\Html2Pdf\Html2Pdf;
-
 class RayssaMailPdf{
 
     private $html2pdf;
@@ -12,12 +12,17 @@ class RayssaMailPdf{
     private $artifacts;
 
     private $pdf_generated_file_path;
+    private $pdf_generated_down_link;
     private $pdf_html_tpl_src;
 
-    function __construct()
+    private RayssaExcerciseSsnMangr $ssn_mngr;
+
+    function __construct( RayssaExcerciseSsnMangr $esm )
     {
 
         $this->html2pdf = new Html2Pdf('P','LETTER','es');
+
+        $this->ssn_mngr = $esm;
 
         add_action('rayssa_pdf_exercise_item', [$this,'pdf_item_lt_and_fv']);
         add_action('rayssa_email_content_header', [$this,'email_content_header']);
@@ -34,6 +39,12 @@ class RayssaMailPdf{
         $this->verify_pdf_download_path( $pdp );
         return $pdp;
     } 
+
+    private function pdf_dowunload_url_prfx(){
+        $pdu = WP_CONTENT_URL . '/rayssa/downloads/';
+        $pdu = apply_filters('rayssa_pdf_download_url_prefix',$pdu);
+        return $pdu;
+    }
 
     private function verify_pdf_download_path( $path, $create = true ){
         if( is_writable( $path ) ){
@@ -98,7 +109,13 @@ class RayssaMailPdf{
 
         $path_prefix = $this->pdf_download_path();
 
-        $this->pdf_generated_file_path = uniqid( $path_prefix . date( 'ymdHis-' ) ) . '.pdf';
+        $url_prefix = $this->pdf_dowunload_url_prfx();
+
+        $file_base_nm = uniqid( date( 'ymdHis-' ) ) . '.pdf';
+
+        $this->pdf_generated_file_path = $path_prefix . $file_base_nm;
+
+        $this->pdf_generated_down_link = $url_prefix . $file_base_nm;
 
         $this->pdf_load_template();
 
@@ -277,16 +294,26 @@ class RayssaMailPdf{
         return $mail_sent_res;
     }
 
+
     public function process_request( $data ){
         /* faltan validaciones del lado del 
            server. */
         $this->data = $data;
         $this->contact = $data['contact'];
         $this->artifacts = $data['artifacts'];
-        
-        $this->pdf_generate();
+        $esr = [];
 
-        $esr = $this->try_send_mails();
+        $this->pdf_generate();
+        
+        $esr['emailSnetOk'] = $this->try_send_mails();
+        if($esr['emailSnetOk']){
+            $this->ssn_mngr->set_status_processed_ok($this->data['excerciseSsnId']);
+        } else {
+            $this->ssn_mngr->set_status_processed_fail($this->data['excerciseSsnId']);
+        }
+        
+        $esr['pdfDownloadLink'] = $this->pdf_generated_down_link;
+        $esr['excerciseSsnId'] = $this->data['excerciseSsnId'];
 
         return $esr;
     }

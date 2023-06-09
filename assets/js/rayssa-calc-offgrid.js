@@ -77,6 +77,8 @@ jQuery( function( $ ) {
         .click(function(){
             const data = calcOffGridUIParser.getDataToSend();
 
+            data.excerciseSsnId = RAYSSA_CALC_OFFGRID.rayssaExcrcsSsnId;
+
             const ac = {
                 data: JSON.stringify(data),
                 method: 'POST',
