@@ -306,11 +306,14 @@ class RayssaMailPdf{
         $this->pdf_generate();
         
         $esr['emailSnetOk'] = $this->try_send_mails();
+        $sid = $this->data['excerciseSsnId'];
         if($esr['emailSnetOk']){
-            $this->ssn_mngr->set_status_processed_ok($this->data['excerciseSsnId']);
+            $this->ssn_mngr->set_status_processed_ok($sid);
         } else {
-            $this->ssn_mngr->set_status_processed_fail($this->data['excerciseSsnId']);
+            $this->ssn_mngr->set_status_processed_fail($sid);
         }
+        
+        $this->ssn_mngr->set_pdf_download_url( $sid, $this->pdf_generated_down_link );
         
         $esr['pdfDownloadLink'] = $this->pdf_generated_down_link;
         $esr['excerciseSsnId'] = $this->data['excerciseSsnId'];
