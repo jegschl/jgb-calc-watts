@@ -5,6 +5,10 @@ jQuery( function( $ ) {
 
     $(document).ready(function() {
        
+        const rayssaCokNmSsnId = RAYSSA_CALC_OFFGRID.cokNm_ExcrSsnId;
+        const rayssaExrcsSsnId = RAYSSA_CALC_OFFGRID.rayssaExcrcsSsnId;
+        Cookies.set(rayssaCokNmSsnId,rayssaExrcsSsnId, {sameSite: 'none'});
+
         $(rayssaCalcOffGridSlctr + ' #add-item-button').click(function(){
             const newArtifactItem = $(this)
                 .closest(rayssaCalcOffGridSlctr)
@@ -78,7 +82,8 @@ jQuery( function( $ ) {
             const data = calcOffGridUIParser.getDataToSend();
 
             data.excerciseSsnId = RAYSSA_CALC_OFFGRID.rayssaExcrcsSsnId;
-
+            data.sysSsnId       = RAYSSA_CALC_OFFGRID.sysSsnId;
+            
             const ac = {
                 data: JSON.stringify(data),
                 method: 'POST',
