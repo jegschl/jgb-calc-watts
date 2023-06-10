@@ -92,6 +92,7 @@ jQuery( function( $ ) {
 				contentType: 'application/json; charset=UTF-8',
                 complete: ( jqXHR, textStatus )=>{
                     $.unblockUI();
+                    location.reload();
                 },
 				success: ( data,  textStatus,  jqXHR )=>{},
 				error: ( jqXHR, textStatus, errorThrown )=>{}

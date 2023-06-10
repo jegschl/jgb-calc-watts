@@ -200,4 +200,10 @@
 	color: white;
     display: flex; 
     justify-content: space-around;
+    align-items: center;
+}
+
+.rayssa-calc-result-procd-ok .dwld-link .el-group-wrapper:hover{
+    background-color: #f0c2ad;
+    color: rgb(76, 76, 76);
 }
