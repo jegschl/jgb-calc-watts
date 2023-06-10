@@ -3,6 +3,7 @@
 define('RAYSSA_EXCRCS_STTTS_STARTED',0);
 define('RAYSSA_EXCRCS_STTTS_PROCD_OK',1);
 define('RAYSSA_EXCRCS_STTTS_PROCD_FAIL',2);
+define('RAYSSA_EXCRCS_STTTS_FINALIZED',3);
 define('RAYSSA_COK_NM_EXCR_SSN_ID','rayssa_esi');
 
 class RayssaExcerciseSsnMangr{
@@ -21,6 +22,12 @@ class RayssaExcerciseSsnMangr{
 
     public function get_session_id(){
         return $this->ssn_excercise_id;
+    }
+
+    public function set_status_finalized( $id ){
+        if( isset( $_SESSION['rayssa']['excercises'][ $id ] ) ){
+            $_SESSION['rayssa']['excercises'][ $id ]['status'] = RAYSSA_EXCRCS_STTTS_FINALIZED;
+        }
     }
 
     public function set_status_processed_ok( $id ){
@@ -87,7 +94,8 @@ class RayssaExcerciseSsnMangr{
                 $et->setTimestamp( $ed['start_time'] );
                 $time_diff = (new DateTime())->diff($et);
                 $limit_days = intval( apply_filters( 'rayssa_session_days_time_days',4 ) );
-                if( intval( $time_diff->format('%a') ) > $limit_days ){
+                $is_finalized = $this->get_status( $k ) === RAYSSA_EXCRCS_STTTS_FINALIZED ? true : false;
+                if( $is_finalized || ( intval( $time_diff->format('%a') ) > $limit_days ) ){
                     unset( $_SESSION['rayssa']['excercises'][$k] );
                 }
             }

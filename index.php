@@ -194,7 +194,7 @@ function rayssa_get_hsp_data(){
     return apply_filters('rayssa_hsp_regions',$hsp);
 }
 
-function rayssa_enqueue_scripts(){
+function rayssa_enqueue_scripts($ecsid){
    
     // Encola jQuery UI y su dependencia jQuery
     wp_enqueue_script('jquery-ui-core');
@@ -261,7 +261,7 @@ function rayssa_enqueue_scripts(){
         'artfctsDemo'       => $artfcts_demo,
         'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
         'calcConfig'        => $calc_config,
-        'rayssaExcrcsSsnId' => $_SESSION['rayssa']['session']->get_session_id(),
+        'rayssaExcrcsSsnId' => $ecsid,
         'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID,
         'sysSsnId'          => session_id()
     );
@@ -323,8 +323,9 @@ function rayssa_load_template($tpl,$attrs=null){
 // Registra el shortcode para mostrar el listado
 function rayssa_calc_offgrid_shortcode($atts) {
     $sm = new RayssaExcerciseSsnMangr;
+    $ecsid = $sm->get_session_id();
     
-    rayssa_enqueue_scripts();
+    rayssa_enqueue_scripts($ecsid);
 
     $hsp_region   = rayssa_get_hsp_data();
 
@@ -340,10 +341,12 @@ function rayssa_calc_offgrid_shortcode($atts) {
     switch( $sm->get_status() ){
         case RAYSSA_EXCRCS_STTTS_PROCD_OK:
             $tpl_nm = RAYSSA_TPL_SLG_CALC_PRCD_RES_OK;
+            $sm->set_status_finalized( $ecsid );
             break;
 
         case RAYSSA_EXCRCS_STTTS_PROCD_FAIL:
             $tpl_nm = RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL;
+            $sm->set_status_finalized( $ecsid );
             break;
 
         default:
