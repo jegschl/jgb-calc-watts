@@ -7,10 +7,10 @@
 </div>
 
 <div 
-        id="<?= esc_attr($atts['id']); ?>" 
+        id="<?= esc_attr($args['id']); ?>" 
         class="rayssa-calc-offgrid" 
-        data-title="<?php echo esc_attr($atts['title']); ?>" 
-        data-category="<?php echo esc_attr($atts['category']); ?>"
+        data-title="<?php echo esc_attr($args['title']); ?>" 
+        data-category="<?php echo esc_attr($args['category']); ?>"
 >
     
   <table class="items">
