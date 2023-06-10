@@ -184,3 +184,20 @@
     margin-right: 8px;
     margin-bottom: 5px;
 }
+
+.rayssa-calc-result-procd-ok .dwld-link-wrapper {
+	text-align: center;
+}
+
+.rayssa-calc-result-procd-ok .dwld-link{
+    display: inline-block;
+}
+
+.rayssa-calc-result-procd-ok .dwld-link .el-group-wrapper {
+	padding: 10px 20px;
+	background-color: #EC763E;
+	border-radius: 20px;
+	color: white;
+    display: flex; 
+    justify-content: space-around;
+}
