@@ -20,7 +20,7 @@ define('RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL','procd-result-fail');
 require_once __DIR__.'/rayssa-ssn-mngr.php';
 
 add_filter('script_loader_tag', 'rayssa_add_type_attribute' , 10, 3);
-
+add_action('init','RayssaExcerciseSsnMangr::prepare_session');
 function rayssa_add_type_attribute($tag, $hnd, $src) {
     
     if ( 'rayssa-calc-offgrid' !== $hnd ) {
@@ -203,6 +203,13 @@ function rayssa_enqueue_scripts(){
     wp_enqueue_style('rayssa-select2-css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' );
 	wp_enqueue_script('rayssa-select2-js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', array('jquery') );
 
+    wp_enqueue_script(
+        'rayssa-js-cookie',
+        plugin_dir_url(__FILE__) . 'assets/js/node_modules/js-cookie/dist/js.cookie.min.js',
+        '3.0.5',
+        true
+    );
+
     wp_enqueue_style(
         'rayssa-calc-offgrid-css', 
         plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc-offgrid.css',
@@ -255,7 +262,8 @@ function rayssa_enqueue_scripts(){
         'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
         'calcConfig'        => $calc_config,
         'rayssaExcrcsSsnId' => $_SESSION['rayssa']['session']->get_session_id(),
-        'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID
+        'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID,
+        'sysSsnId'          => session_id()
     );
 
     wp_localize_script('rayssa-calc-offgrid-js','RAYSSA_CALC_OFFGRID',$prms);
@@ -367,7 +375,8 @@ function receive_send_exercise_request(WP_REST_Request $r){
     $dt = $r->get_json_params();
    
     require_once __DIR__ . '/rayssa-mp-mangr.php';
-
+    session_id( $dt['sysSsnId'] );
+    session_start();
     $rmm = new RayssaMailPdf( $_SESSION['rayssa']['session'] );
 
     $esr = $rmm->process_request($dt);
