@@ -324,7 +324,7 @@ function rayssa_load_template($tpl,$attrs=null){
 function rayssa_calc_offgrid_shortcode($atts) {
     $sm = new RayssaExcerciseSsnMangr;
     $ecsid = $sm->get_session_id();
-    
+
     rayssa_enqueue_scripts($ecsid);
 
     $hsp_region   = rayssa_get_hsp_data();
@@ -341,11 +341,13 @@ function rayssa_calc_offgrid_shortcode($atts) {
     switch( $sm->get_status() ){
         case RAYSSA_EXCRCS_STTTS_PROCD_OK:
             $tpl_nm = RAYSSA_TPL_SLG_CALC_PRCD_RES_OK;
+            $atts['download-url'] = $sm->get_pdf_download_url($ecsid);
             $sm->set_status_finalized( $ecsid );
             break;
 
         case RAYSSA_EXCRCS_STTTS_PROCD_FAIL:
             $tpl_nm = RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL;
+            $atts['download-url'] = $sm->get_pdf_download_url($ecsid);
             $sm->set_status_finalized( $ecsid );
             break;
 
