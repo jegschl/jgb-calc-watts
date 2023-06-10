@@ -42,6 +42,12 @@ class RayssaExcerciseSsnMangr{
         } 
     }
 
+    public function set_pdf_download_url( $id, $url ){
+        if( isset( $_SESSION['rayssa']['excercises'][ $id ] ) ){
+            $_SESSION['rayssa']['excercises'][ $id ]['pdf_url'] = $url;
+        } 
+    }
+
     public function get_status( $id = null ){
         if( is_null( $id ) ){
             $id = $this->ssn_excercise_id;
