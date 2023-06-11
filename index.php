@@ -16,6 +16,7 @@ define('RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS','artifact-item');
 define('RAYSSA_TPL_SLG_CALC_ONGRID','on-grid');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_OK','procd-result-ok');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL','procd-result-fail');
+define('RAYSSA_TPL_SLG_PROCESSING_MSG','pocsng-msg');
 
 require_once __DIR__.'/rayssa-ssn-mngr.php';
 
@@ -271,6 +272,14 @@ function rayssa_enqueue_scripts($ecsid){
 
 function rayssa_load_template($tpl,$attrs=null){
     switch ($tpl) {
+        case RAYSSA_TPL_SLG_PROCESSING_MSG:
+            $template = locate_template( 'calc-'.RAYSSA_TPL_SLG_PROCESSING_MSG.'.php' );
+            if ( empty( $template ) ) {
+                // Template not found in theme's folder, use plugin's template as a fallback
+                $template = dirname( __FILE__ ) . '/templates/calc-'.RAYSSA_TPL_SLG_PROCESSING_MSG.'.php';
+            }
+            break;
+
         case RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS:
             $template = locate_template( 'calc-offgrid-'.RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS.'.php' );
             if ( empty( $template ) ) {

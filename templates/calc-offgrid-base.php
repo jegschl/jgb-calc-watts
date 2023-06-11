@@ -2,9 +2,7 @@
 
 ?>
 
-<div id="rayssa-processing-msg" style="display:none;"> 
-    <h1>Estamos enviando tu solicitud, agreadecemos tu paciencia.</h1> 
-</div>
+<?php do_action('rayssa_load_template_processing_template'); ?>
 
 <div 
         id="<?= esc_attr($args['id']); ?>" 
