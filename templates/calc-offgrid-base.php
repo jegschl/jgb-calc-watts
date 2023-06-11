@@ -4,6 +4,8 @@
 
 <?php do_action('rayssa_load_template_processing_template'); ?>
 
+<?php do_action('rayssa_load_template_calc_tab'); ?>
+
 <div 
         id="<?= esc_attr($args['id']); ?>" 
         class="rayssa-calc-offgrid" 
