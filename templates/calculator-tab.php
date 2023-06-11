@@ -4,11 +4,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$ofg_active = $args['calc_type'] == 'offgrid' ? 'active' : '';
+$ofg_active = rayssa_get_calc_type() == 'offgrid' ? 'active' : '';
 if( empty( $ofg_active ) ){
+    
     if( isset( $_GET['calc_type'] ) ){
-        $_GET['calc_type'] = 'offgrid';
-        $new_query_string = http_build_query( $_GET );
+        $qv = [];
+        foreach( $_GET as $k => $v ){
+            $qv[$k] = $v;
+        }
+        $qv['calc_type'] = 'offgrid';
+        $new_query_string = http_build_query( $qv );
     } else {
         $prms = array_merge( $_GET, ['calc_type' => 'offgrid']);
         $new_query_string = http_build_query( $prms );
@@ -22,11 +27,15 @@ if( empty( $ofg_active ) ){
     $ofg_a_close = '</a>';
 }
 
-$ong_active = $args['calc_type'] == 'ongrid' ? 'active' : '';
+$ong_active = rayssa_get_calc_type() == 'ongrid' ? 'active' : '';
 if( empty( $ong_active ) ){
     if( isset( $_GET['calc_type'] ) ){
-        $_GET['calc_type'] = 'ongrid';
-        $new_query_string = http_build_query( $_GET );
+        $qv = [];
+        foreach( $_GET as $k => $v ){
+            $qv[$k] = $v;
+        }
+        $qv['calc_type'] = 'ongrid';
+        $new_query_string = http_build_query( $qv );
     } else {
         $prms = array_merge( $_GET, ['calc_type' => 'ongrid']);
         $new_query_string = http_build_query( $prms );

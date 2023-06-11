@@ -270,7 +270,7 @@ function receive_send_exercise_request(WP_REST_Request $r){
 
 function rayssa_get_calc_type(){
     $ct = 'offgrid';
-    if(isset($_GET['calc_type']) && $_GET['calc_type'] == 'on-grid'){
+    if(isset($_GET['calc_type']) && $_GET['calc_type'] == 'ongrid'){
         $ct =  'ongrid';
     }
 
