@@ -220,11 +220,11 @@ class RayssaMailPdf{
     }
 
     public function email_content_data_contact(){
-        $tplp = 'rayssa/emails/html-cofg-contact.php';
+        $tplp = 'rayssa/emails/html-contact.php';
         $template = locate_template( $tplp );
 
         if (empty( $template ) ) {
-            $template =  __DIR__ . '/templates/emails/html-cofg-contact.php';
+            $template =  __DIR__ . '/templates/emails/html-contact.php';
         }
 
         ob_start();

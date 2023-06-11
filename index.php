@@ -17,14 +17,27 @@ define('RAYSSA_TPL_SLG_CALC_ONGRID','on-grid');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_OK','procd-result-ok');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL','procd-result-fail');
 define('RAYSSA_TPL_SLG_PROCESSING_MSG','pocsng-msg');
+define('RAYSSA_TPL_SLG_CALC_TABULATOR','calculator-tab');
 
 require_once __DIR__.'/rayssa-ssn-mngr.php';
 
+require_once __DIR__ . '/include/function_helpers.php';
+
 add_filter('script_loader_tag', 'rayssa_add_type_attribute' , 10, 3);
 add_action('init','RayssaExcerciseSsnMangr::prepare_session');
+
+add_action('rayssa_load_template_processing_template',function(){
+    rayssa_load_template(RAYSSA_TPL_SLG_PROCESSING_MSG);
+});
+
+add_action('rayssa_load_template_calc_tab',function(){
+    $args = ['calc_type' => rayssa_get_calc_type() ];
+    rayssa_load_template(RAYSSA_TPL_SLG_CALC_TABULATOR,$args);
+});
+
 function rayssa_add_type_attribute($tag, $hnd, $src) {
     
-    if ( 'rayssa-calc-offgrid' !== $hnd ) {
+    if ( 'rayssa-calc-off-grid' !== $hnd ) {
         return $tag;
     }
 
@@ -32,168 +45,7 @@ function rayssa_add_type_attribute($tag, $hnd, $src) {
     return $tag;
 }
 
-function rayssa_get_demo_artifacts(){
-    $demoArtfcs = [
-        [
-            'id'    => 'tv',
-            'name'  => 'TV',
-            'qty'   => 1,
-            'power' => 80,
-            'duh'   => 6
-        ],
-        [
-            'id'    => 'lavadora',
-            'name'  => 'Lavadora',
-            'qty'   => 1,
-            'power' => 400,
-            'duh'   => 2
-        ],
-        [
-            'id'    => 'computador',
-            'name'  => 'Computador',
-            'qty'   => 1,
-            'power' => 150,
-            'duh'   => 2
-        ],
-        [
-            'id'    => 'refrigerador',
-            'name'  => 'Refrigerador',
-            'qty'   => 1,
-            'power' => 24.67,
-            'duh'   => 24
-        ],
-        [
-            'id'    => 'iluminacion',
-            'name'  => 'Iluminacion',
-            'qty'   => 10,
-            'power' => 9,
-            'duh'   => 6
-        ],
-        [
-            'id'    => 'bomba-agua',
-            'name'  => 'BNomba de agua',
-            'qty'   => 1,
-            'power' => 700,
-            'duh'   => 1
-        ],
-        [
-            'id'    => 'cargador-celular',
-            'name'  => 'Cargador de celular',
-            'qty'   => 3,
-            'power' => 20,
-            'duh'   => 5
-        ],
-        [
-            'id'    => 'estufa-a-pellet',
-            'name'  => 'Estufa a pellet',
-            'qty'   => 1,
-            'power' => 40,
-            'duh'   => 6
-        ],
-        [
-            'id'    => 'juguera',
-            'name'  => 'Juguera',
-            'qty'   => 1,
-            'power' => 60,
-            'duh'   => 1
-        ],
-        [
-            'id'    => 'aspiradora',
-            'name'  => 'Aspiradora',
-            'qty'   => 1,
-            'power' => 100,
-            'duh'   => 1
-        ]
-    ];
-    return apply_filters('rayssa_demo_artifacts',$demoArtfcs);
-}
 
-function rayssa_get_hsp_data(){
-    $hsp = [
-        [
-            'id' => 1,
-            'name' => 'Región de Arica y Parinacota',
-            'value'   => 2.40
-        ],
-        [
-            'id' => 2,
-            'name' => 'Región de Tarapacá',
-            'value'   => 2.67
-        ],
-        [
-            'id' => 3,
-            'name' => 'Región de Antofagasta',
-            'value'   => 2.84
-        ],
-        [
-            'id' => 4,
-            'name' => 'Región de Atacama',
-            'value'   => 2.70
-        ],
-        [
-            'id' => 5,
-            'name' => 'Región de Coquimbo',
-            'value'   => 2.54
-        ],
-        [
-            'id' => 6,
-            'name' => 'Región de Valparaiso',
-            'value'   => 2.41
-        ],
-        [
-            'id' => 7,
-            'name' => 'Región Metropolitana',
-            'value'   => 2.42
-        ],
-        [
-            'id' => 8,
-            'name' => 'Región de O\'Higgins',
-            'value'   => 2.18
-        ],
-        [
-            'id' => 9,
-            'name' => 'Región del Maule',
-            'value'   => 2.31
-        ],
-        [
-            'id' => 10,
-            'name' => 'Región del Ñuble',
-            'value'   => 2.23
-        ],
-        [
-            'id' => 11,
-            'name' => 'Región de Bío Bío',
-            'value'   => 2.04
-        ],
-        [
-            'id' => 12,
-            'name' => 'Región de la Araucanía',
-            'value'   => 1.88
-        ],
-        [
-            'id' => 13,
-            'name' => 'Región de los Ríos',
-            'value'   => 1.72
-        ],
-        [
-            'id' => 14,
-            'name' => 'Región de los Lagos',
-            'value'   => 1.56
-        ],
-        [
-            'id' => 15,
-            'name' => 'Región de Aysen',
-            'value'   => 0.90
-        ],
-        [
-            'id' => 16,
-            'name' => 'Región de Magallanes',
-            'value'   => 1.14
-        ]
-    ];
-
-    return apply_filters('rayssa_hsp_regions',$hsp);
-}
 
 function rayssa_enqueue_scripts($ecsid){
    
@@ -212,13 +64,19 @@ function rayssa_enqueue_scripts($ecsid){
     );
 
     wp_enqueue_style(
-        'rayssa-calc-offgrid-css', 
-        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc-offgrid.css',
+        'rayssa-calc-css', 
+        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc.css',
+     );
+
+    $ct = rayssa_get_calc_type();
+    wp_enqueue_style(
+        'rayssa-calc-'.$ct.'-css', 
+        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc-'.$ct.'.css',
      );
 
     wp_enqueue_script(
-        'ui-parser-offgrid-js',
-        plugin_dir_url(__FILE__) . 'assets/js/ui-parser-offgrid.js',
+        'ui-parser-'.$ct.'-js',
+        plugin_dir_url(__FILE__) . 'assets/js/ui-parser-'.$ct.'.js',
         array('jquery'),
         '1.0.0',
         true
@@ -233,9 +91,9 @@ function rayssa_enqueue_scripts($ecsid){
     );
 
     wp_enqueue_script(
-        'rayssa-calc-offgrid-js',
-        plugin_dir_url(__FILE__) . 'assets/js/rayssa-calc-offgrid.js',
-        array('jquery', 'jquery-ui-sortable','rayssa-select2-js','ui-parser-offgrid-js','rayssa-jq-blockui-js'),
+        'rayssa-calc-'.$ct.'-js',
+        plugin_dir_url(__FILE__) . 'assets/js/rayssa-calc-'.$ct.'.js',
+        array('jquery', 'jquery-ui-sortable','rayssa-select2-js','ui-parser-'.$ct.'-js','rayssa-jq-blockui-js'),
         '1.0.0',
         true
     );
@@ -256,7 +114,7 @@ function rayssa_enqueue_scripts($ecsid){
     ];
     
     $prms = array(
-        'rootSelector'      => '.rayssa-calc-offgrid',
+        'rootSelector'      => $ct == 'on-grid' ? '.rayssa-calc-ongrid' : '.rayssa-calc-offgrid',
         'exersizeURL'       => '',
         'artifactItemTpl'   => $artfct_item_tpl,
         'artfctsDemo'       => $artfcts_demo,
@@ -267,11 +125,19 @@ function rayssa_enqueue_scripts($ecsid){
         'sysSsnId'          => session_id()
     );
 
-    wp_localize_script('rayssa-calc-offgrid-js','RAYSSA_CALC_OFFGRID',$prms);
+    wp_localize_script('rayssa-calc-'.$ct.'-js','RAYSSA_CALC_OFFGRID',$prms);
 }
 
 function rayssa_load_template($tpl,$attrs=null){
     switch ($tpl) {
+        case RAYSSA_TPL_SLG_CALC_TABULATOR:
+            $template = locate_template( RAYSSA_TPL_SLG_CALC_TABULATOR.'.php' );
+            if ( empty( $template ) ) {
+                // Template not found in theme's folder, use plugin's template as a fallback
+                $template = dirname( __FILE__ ) . '/templates/'.RAYSSA_TPL_SLG_CALC_TABULATOR.'.php';
+            }
+            break;
+
         case RAYSSA_TPL_SLG_PROCESSING_MSG:
             $template = locate_template( 'calc-'.RAYSSA_TPL_SLG_PROCESSING_MSG.'.php' );
             if ( empty( $template ) ) {
@@ -400,4 +266,13 @@ function receive_send_exercise_request(WP_REST_Request $r){
 
     return $response;
     
+}
+
+function rayssa_get_calc_type(){
+    $ct = 'offgrid';
+    if(isset($_GET['calc_type']) && $_GET['calc_type'] == 'on-grid'){
+        $ct =  'ongrid';
+    }
+
+    return $ct;
 }
