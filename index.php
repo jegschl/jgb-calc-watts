@@ -13,7 +13,7 @@ define('JGB_RAYSSA_APIREST_BASE_ROUTE','rayssa/');
 define('JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG','snd-excr');
 define('RAYSSA_TPL_SLG_CALC_OFFGRID','off-grid');
 define('RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS','artifact-item');
-define('RAYSSA_TPL_SLG_CALC_ONGRID','on-grid');
+define('RAYSSA_TPL_SLG_CALC_ONGRID','ongrid');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_OK','procd-result-ok');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL','procd-result-fail');
 define('RAYSSA_TPL_SLG_PROCESSING_MSG','pocsng-msg');
@@ -99,33 +99,58 @@ function rayssa_enqueue_scripts($ecsid){
     );
 
     
-
-    $artfcts_demo = rayssa_get_demo_artifacts();
-    $atts = ['artfcts_demo' => $artfcts_demo];
+    rayssa_localize_scripts( $ecsid, $ct );
     
-    ob_start();
-    rayssa_load_template('artifact-item',$atts);
-    $artfct_item_tpl = ob_get_clean();
+}
 
-    $calc_config = [
-        'autonomia'  => apply_filters('rayssa_calc_cfg_autonomia',2),
-        'dod'        => apply_filters('rayssa_calc_cfg_dod',55/100),
-        'eficiencia' => apply_filters('rayssa_calc_cfg_eficiancia',0.86)
-    ];
-    
-    $prms = array(
-        'rootSelector'      => $ct == 'on-grid' ? '.rayssa-calc-ongrid' : '.rayssa-calc-offgrid',
-        'exersizeURL'       => '',
-        'artifactItemTpl'   => $artfct_item_tpl,
-        'artfctsDemo'       => $artfcts_demo,
-        'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
-        'calcConfig'        => $calc_config,
-        'rayssaExcrcsSsnId' => $ecsid,
-        'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID,
-        'sysSsnId'          => session_id()
-    );
+function rayssa_localize_scripts( $ecsid, $calc_type ){
+    $ct = $calc_type;
 
-    wp_localize_script('rayssa-calc-'.$ct.'-js','RAYSSA_CALC_OFFGRID',$prms);
+    if( $ct == 'offgrid'){
+        $artfcts_demo = rayssa_get_demo_artifacts();
+        $atts = ['artfcts_demo' => $artfcts_demo];
+        
+        ob_start();
+        rayssa_load_template('artifact-item',$atts);
+        $artfct_item_tpl = ob_get_clean();
+
+        $calc_config = [
+            'autonomia'  => apply_filters('rayssa_calc_cfg_autonomia',2),
+            'dod'        => apply_filters('rayssa_calc_cfg_dod',55/100),
+            'eficiencia' => apply_filters('rayssa_calc_cfg_eficiancia',0.86)
+        ];
+        
+        $prms = array(
+            'rootSelector'      => $ct == 'ongrid' ? '.rayssa-calc-ongrid' : '.rayssa-calc-offgrid',
+            'artifactItemTpl'   => $artfct_item_tpl,
+            'artfctsDemo'       => $artfcts_demo,
+            'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
+            'calcConfig'        => $calc_config,
+            'rayssaExcrcsSsnId' => $ecsid,
+            'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID,
+            'sysSsnId'          => session_id()
+        );
+
+    } else {
+
+        $calc_config = [
+            'valorkw'  => apply_filters('rayssa_calc_cfg_valor_kw',200)
+        ];
+
+        $prms = array(
+            'rootSelector'      => $ct == 'ongrid' ? '.rayssa-calc-ongrid' : '.rayssa-calc-offgrid',
+            'sndExcrsURL'       => rest_url('/'.JGB_RAYSSA_APIREST_BASE_ROUTE . JGB_RAYSSA_URI_ID_SEND_EMAIL_COFG . '/'),
+            'calcConfig'        => $calc_config,
+            'rayssaExcrcsSsnId' => $ecsid,
+            'cokNm_ExcrSsnId'   => RAYSSA_COK_NM_EXCR_SSN_ID,
+            'sysSsnId'          => session_id()
+        );
+
+    }
+
+    $jsn_array_nm = 'RAYSSA_CALC_' . strtoupper( $ct );
+
+    wp_localize_script('rayssa-calc-'.$ct.'-js',$jsn_array_nm,$prms);
 }
 
 function rayssa_load_template($tpl,$attrs=null){
@@ -210,8 +235,9 @@ function rayssa_calc_offgrid_shortcode($atts) {
         'category' => 'todos',
         'id' => 'rayssa-calc-orffgrid-root',
         'hsp_region' => $hsp_region,
-        'calc_type' => 'off-grid'
     ), $atts);
+
+    $atts['calc_type'] = rayssa_get_calc_type();
 
     switch( $sm->get_status() ){
         case RAYSSA_EXCRCS_STTTS_PROCD_OK:
