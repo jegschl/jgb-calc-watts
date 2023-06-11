@@ -1,0 +1,90 @@
+.rayssa-calc-ongrid table.items{
+    overflow: visible;
+}   
+
+.rayssa-calc-ongrid table.items td{
+    text-align: center;
+}
+
+.rayssa-calc-ongrid .results-calculations{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.rayssa-calc-ongrid .capacity-results {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 2%;
+	row-gap: 20px;
+    width: 100%;
+}
+
+.rayssa-calc-ongrid .capacity-results .calc-result {
+	padding: 20px;
+	background-color: #214173;
+	color: white;
+	border-radius: 20px;
+	box-sizing: border-box;
+	width: 48%;
+}
+
+
+.rayssa-calc-ongrid .capacity-results{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+
+.rayssa-calc-ongrid .contact-data-container .field.submit button {
+	background-color: #EC763E;
+	color: white;
+	padding: 8px 24px;
+	border-radius: 25px;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field label{
+    width: 200px;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field{
+    margin-bottom: 10px;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field.financiamiento {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field.submit,
+.rayssa-calc-ongrid .contact-data-container .field input[type="text"]
+{
+    text-align: center;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field input[type="text"]
+{
+    color: #7A7A7A;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field input[type="checkbox"]
+{
+    min-height: 0px;
+    margin-right: 8px;
+    margin-bottom: 5px;
+}
+
+.rayssa-calc-ongrid table.items input,
+.rayssa-calc-ongrid .contact-data-container .field input {
+    border: 0px solid #e7e7e7;
+    border-radius: 25px;
+    min-height: 40px;
+}
+
+.rayssa-calc-ongrid table.items input[type="number"],
+.rayssa-calc-ongrid .contact-data-container .field input[type="text"] {
+    text-align: center;
+}
