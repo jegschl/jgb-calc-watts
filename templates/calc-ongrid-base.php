@@ -33,7 +33,7 @@
           </select>
         </td>
         <td>
-          <input type="number" value="1" min="1" max="30" id="cantidad">
+          <input id="panels-qty" type="number" value="1" min="1" max="30" id="cantidad">
         </td>
         <td>
           <select id="region-selector">
