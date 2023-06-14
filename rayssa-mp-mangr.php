@@ -28,9 +28,7 @@ class RayssaMailPdf{
         $this->ssn_mngr = $esm;
 
         add_action('rayssa_pdf_exercise_item', [$this,'pdf_item_lt_and_fv']);
-        add_action('rayssa_email_content_header', [$this,'email_content_header']);
-        add_action('rayssa_email_content_body', [$this,'email_content_body']);
-        add_action('rayssa_email_content_footer', [$this,'email_content_footer']);
+        
        
     }
 
@@ -298,12 +296,10 @@ class RayssaMailPdf{
 
     }
 
-    private function try_send_mails(){
-        $header = $this->email_header();
-        $subject = $this->email_subject();
-        $email   = explode(',',$this->contact['email']);
-        $email   = apply_filters('rayssa_email_recipents',$email);
-        $pp      = $this->pdf_generated_file_path;
+    private function set_emails_hooks(){
+        add_action('rayssa_email_content_header', [$this,'email_content_header']);
+        add_action('rayssa_email_content_body', [$this,'email_content_body']);
+        add_action('rayssa_email_content_footer', [$this,'email_content_footer']);
 
         add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_contact']);
         if( $this->calc_type == 'offgrid'){
@@ -312,10 +308,19 @@ class RayssaMailPdf{
             add_Action('rayssa_mail_content_body_inner',[$this,'email_content_data_cong_input']);
         }
         add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_calc_results']);
+    }
+
+    private function try_send_mails(){
+        $header = $this->email_header();
+        $subject = $this->email_subject();
+        $email   = explode(',',$this->contact['email']);
+        $email   = apply_filters('rayssa_email_recipents',$email);
+        $pp      = $this->pdf_generated_file_path;
+
+        $this->set_emails_hooks();
 
         $content = $this->get_email_content_for_requester();
         
-
         $mail_sent_res = wp_mail($email,$subject,$content,$header,[$pp]);
     
         return $mail_sent_res;
@@ -323,8 +328,8 @@ class RayssaMailPdf{
 
 
     public function process_request( $data ){
-        /* faltan validaciones del lado del 
-           server. */
+        /* validaciones del lado del 
+           server pendientes. */
         $this->data = $data;
         $this->calc_type = rayssa_get_calc_type();
 
