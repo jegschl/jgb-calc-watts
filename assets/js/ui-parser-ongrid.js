@@ -61,6 +61,7 @@ jQuery( function( $ ) {
 
             currInput = $(this.#elQty);
             qty = parseInt( $(currInput).val() );
+            this.#dts.qty = qty;
 
             currSData = $(this.#elRegion).select2('data');
             if( Array.isArray(currSData) && ( currSData.length == 1 ) && ( currSData[0].id != "" ) ){
@@ -87,11 +88,11 @@ jQuery( function( $ ) {
             $(this.#elDiscby).text( this.#discby.toFixed(0) );
             
              
-            this.#dts.whbd = this.#whbd.toFixed(2);
-            this.#dts.kwhbd = this.#kwhbd.toFixed(2);
-            this.#dts.kwhbm = this.#kwhbm.toFixed(2);
-            this.#dts.discbm = this.#discbm.toFixed(0);
-            this.#dts.discby = this.#discby.toFixed(0);
+            this.#dts.whbd = this.#whbd;
+            this.#dts.kwhbd = this.#kwhbd;
+            this.#dts.kwhbm = this.#kwhbm;
+            this.#dts.discbm = this.#discbm;
+            this.#dts.discby = this.#discby;
 
             return;
               
