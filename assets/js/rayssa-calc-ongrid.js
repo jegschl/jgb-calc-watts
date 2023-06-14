@@ -40,11 +40,12 @@ jQuery( function( $ ) {
 
             data.excerciseSsnId = RAYSSA_CALC_ONGRID.rayssaExcrcsSsnId;
             data.sysSsnId       = RAYSSA_CALC_ONGRID.sysSsnId;
-            
+            data.calc_type      ='ongrid';
+
             const ac = {
                 data: JSON.stringify(data),
                 method: 'POST',
-                url: RAYSSA_CALC_ONGRID.sndExcrsURL,
+                url: RAYSSA_CALC_ONGRID.sndExcrsURL + "&calc_type=ongrid",
                 accepts: 'application/json; charset=UTF-8',
 				contentType: 'application/json; charset=UTF-8',
                 complete: ( jqXHR, textStatus )=>{
