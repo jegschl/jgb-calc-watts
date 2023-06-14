@@ -105,7 +105,8 @@ class RayssaMailPdf{
     }
 
     private function pdf_generate(){
-
+        ini_set("allow_url_fopen", 1);
+        
         $path_prefix = $this->pdf_download_path();
 
         $url_prefix = $this->pdf_dowunload_url_prfx();
