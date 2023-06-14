@@ -277,16 +277,30 @@ add_action('rest_api_init',function(){
 });
 
 function receive_send_exercise_request(WP_REST_Request $r){
+    try{
+        $dt = $r->get_json_params();
+    
+        require_once __DIR__ . '/rayssa-mp-mangr.php';
+        session_id( $dt['sysSsnId'] );
+        session_start();
+        $rmm = new RayssaMailPdf( $_SESSION['rayssa']['session'] );
 
-    $dt = $r->get_json_params();
-   
-    require_once __DIR__ . '/rayssa-mp-mangr.php';
-    session_id( $dt['sysSsnId'] );
-    session_start();
-    $rmm = new RayssaMailPdf( $_SESSION['rayssa']['session'] );
+        $esr = $rmm->process_request($dt);
 
-    $esr = $rmm->process_request($dt);
+        $esr['status'] = 'ok';
+    } catch( Exception $e ){
+        $esr['status'] = 'error';
 
+        $err = [
+            'msg' => $e->getMessage(),
+            'code' => $e->getCode(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString()
+        ];
+
+        $esr['error'] = $err;
+    }
     $response = new WP_REST_Response( $esr );
     $response->set_status( 200 );
 

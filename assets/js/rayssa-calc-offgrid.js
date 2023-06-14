@@ -94,7 +94,12 @@ jQuery( function( $ ) {
                     $.unblockUI();
                     location.reload();
                 },
-				success: ( data,  textStatus,  jqXHR )=>{},
+				success: ( data,  textStatus,  jqXHR )=>{
+                    if( data.status == 'error'){
+                        console.log('Datos del error:');
+                        console.log(data.error);
+                    }
+                },
 				error: ( jqXHR, textStatus, errorThrown )=>{}
             };
 
