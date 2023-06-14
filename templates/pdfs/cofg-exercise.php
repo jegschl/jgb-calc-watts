@@ -29,6 +29,7 @@
 </style>
 <?php 
     $img_logo_url = site_url('/wp-content/uploads/2023/04/LogoRayssa.png');
+    $img_logo_url = '/wp-content/uploads/2023/04/LogoRayssa.png';
     $img_logo_url = apply_filters('rayssa_pdf_img_logo_url',$img_logo_url);
 ?>
 <page>
