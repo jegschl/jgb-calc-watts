@@ -92,9 +92,12 @@ jQuery( function( $ ) {
 				contentType: 'application/json; charset=UTF-8',
                 complete: ( jqXHR, textStatus )=>{
                     $.unblockUI();
-                    location.reload();
+                    
                 },
 				success: ( data,  textStatus,  jqXHR )=>{
+                    if( data.status == 'ok' ){
+                        location.reload();
+                    }
                     if( data.status == 'error'){
                         console.log('Datos del error:');
                         console.log(data.error);
