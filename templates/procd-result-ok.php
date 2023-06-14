@@ -1,3 +1,5 @@
+<?php do_action('rayssa_load_template_calc_tab'); ?>
+
 <div class="rayssa-calc-result-procd-ok">
     <div class="msg-wrapper">
         <p>Te enviamos un email con tus resultados.</p>
