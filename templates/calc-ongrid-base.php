@@ -97,19 +97,19 @@
 
     <div class="contact-data-container">
       <div class="field names">
-        <label for="cong-field-names">Nombres y apellidos</label>
-        <input type="text" id="cofg-names">
+        <label for="cong-names">Nombres y apellidos</label>
+        <input type="text" id="cong-names">
       </div>
       <div class="field email">
-        <label for="cong-field-email">Email</label>
-        <input type="text" id="cofg-email">
+        <label for="cong-email">Email</label>
+        <input type="text" id="cong-email">
       </div>
       <div class="field phone">
         <label for="cong-phone">Teléfono</label>
-        <input type="text" id="cofg-phone">
+        <input type="text" id="cong-phone">
       </div>
       <div class="field financiamiento">
-        <input type="checkbox" id="cofg-finances">
+        <input type="checkbox" id="cong-finances">
         <label for="cong-finances">Interesado en financiamiento</label>
       </div>
       <div class="field submit">
