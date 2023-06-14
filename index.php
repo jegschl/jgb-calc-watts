@@ -66,6 +66,11 @@ function rayssa_enqueue_scripts($ecsid){
     wp_enqueue_style(
         'rayssa-calc-css', 
         plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc.css',
+    );
+
+    wp_enqueue_style(
+        'rayssa-calc-result-procd-css', 
+        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc-result-procd.css',
      );
 
     $ct = rayssa_get_calc_type();
@@ -278,18 +283,40 @@ add_action('rest_api_init',function(){
 
 function receive_send_exercise_request(WP_REST_Request $r){
     try{
+        // Log any exceptions to a WC logger
+        $log = new WC_Logger();
+
         $dt = $r->get_json_params();
     
+        $log_entry = print_r( 'Datos Json recibidos para procesar:', true );
+        $log_entry.= print_r( $dt, true );
+        $log->log( 'Rayssa', $log_entry );
+
         require_once __DIR__ . '/rayssa-mp-mangr.php';
+
+        $log_entry = print_r( 'Cargado rayssa-mp-mangr.php', true );
+        $log->log( 'Rayssa', $log_entry );
+
         session_id( $dt['sysSsnId'] );
         session_start();
+        
         $rmm = new RayssaMailPdf( $_SESSION['rayssa']['session'] );
 
+        $log_entry = print_r( 'Creado $rmm.', true );
+        $log->log( 'Rayssa', $log_entry );
+
+
         $esr = $rmm->process_request($dt);
+        $log_entry = print_r( 'Procesado $dt.', true );
+        $log->log( 'Rayssa', $log_entry );
 
         $esr['status'] = 'ok';
     } catch( Exception $e ){
         $esr['status'] = 'error';
+
+        $log_entry = print_r( $e, true );
+        $log_entry .= 'Exception Trace: ' . print_r( $e->getTraceAsString(), true );
+        $log->log( 'Rayssa', $log_entry );
 
         $err = [
             'msg' => $e->getMessage(),
