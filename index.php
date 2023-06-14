@@ -16,7 +16,7 @@ define('RAYSSA_TPL_SLG_CALC_OFG_ARTF_ITMS','artifact-item');
 define('RAYSSA_TPL_SLG_CALC_ONGRID','ongrid');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_OK','procd-result-ok');
 define('RAYSSA_TPL_SLG_CALC_PRCD_RES_FAIL','procd-result-fail');
-define('RAYSSA_TPL_SLG_PROCESSING_MSG','pocsng-msg');
+define('RAYSSA_TPL_SLG_PROCESSING_MSG','procsng-msg');
 define('RAYSSA_TPL_SLG_CALC_TABULATOR','calculator-tab');
 
 require_once __DIR__.'/rayssa-ssn-mngr.php';
