@@ -51,19 +51,27 @@ jQuery( function( $ ) {
 
 
             currSData = $(this.#elPwr).select2('data');
-            if( Array.isArray(currSData) && ( currSData.length == 1 ) && ( currSData[0].id != "" ) )
+            if( Array.isArray(currSData) && ( currSData.length == 1 ) && ( currSData[0].id != "" ) ){
                 pwr = parseInt(currSData[0].id);
-            else
+                this.#dts.pwr = currSData[0].text;
+            }else{
                 pwr = 0;
+                this.#dts.pwr = '';
+            }
 
             currInput = $(this.#elQty);
             qty = parseInt( $(currInput).val() );
 
             currSData = $(this.#elRegion).select2('data');
-            if( Array.isArray(currSData) && ( currSData.length == 1 ) && ( currSData[0].id != "" ) )
+            if( Array.isArray(currSData) && ( currSData.length == 1 ) && ( currSData[0].id != "" ) ){
                 this.#hsp = parseFloat(currSData[0].id);
-            else
+                this.#dts.hsp = this.#hsp;
+                this.#dts.region = currSData[0].text;
+            }else{
                 this.#hsp = 0;
+                this.#dts.hsp = 0;
+                this.#dts.region = '';
+            }
 
 
             this.#whbd       = pwr * qty; // Total Watts by day.
@@ -78,37 +86,28 @@ jQuery( function( $ ) {
             $(this.#elDiscbm).text( this.#discbm.toFixed(0) );
             $(this.#elDiscby).text( this.#discby.toFixed(0) );
             
+             
+            this.#dts.whbd = this.#whbd.toFixed(2);
+            this.#dts.kwhbd = this.#kwhbd.toFixed(2);
+            this.#dts.kwhbm = this.#kwhbm.toFixed(2);
+            this.#dts.discbm = this.#discbm.toFixed(0);
+            this.#dts.discby = this.#discby.toFixed(0);
+
             return;
-
-            /* this.readHsp();
-
-            pcc = Math.ceil( pcc ); */
               
-        }
-
-        readHsp(){
-            this.#hsp = parseFloat( $(this.#elRegion).find(":selected").val() )
-            if( isNaN(this.#hsp)){
-                this.#hsp = 0;
-            }
-            this.#dts.hsp = {
-                'value' : this.#hsp,
-                'region': $(this.#elRegion).find(":selected").text()
-            };
-            return this.#hsp;
         }
 
         getDataToSend(){
             let finantial;
-            if( $('#cofg-finances').is(":checked") ){
+            if( $('#cong-finances').is(":checked") ){
                 finantial = 'Si';
             } else {
                 finantial = 'No';
             }
             this.#dts.contact = {
-                'names': $('#cofg-names').val(),
-                'email': $('#cofg-email').val(),
-                'phone': $('#cofg-phone').val(),
+                'names': $('#cong-names').val(),
+                'email': $('#cong-email').val(),
+                'phone': $('#cong-phone').val(),
                 'finantial':  finantial
             };
            return this.#dts;

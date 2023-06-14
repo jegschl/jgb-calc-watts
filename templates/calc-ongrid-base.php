@@ -97,20 +97,20 @@
 
     <div class="contact-data-container">
       <div class="field names">
-        <label for="cofg-field-names">Nombres y apellidos</label>
+        <label for="cong-field-names">Nombres y apellidos</label>
         <input type="text" id="cofg-names">
       </div>
       <div class="field email">
-        <label for="cofg-field-email">Email</label>
+        <label for="cong-field-email">Email</label>
         <input type="text" id="cofg-email">
       </div>
       <div class="field phone">
-        <label for="cofg-phone">Teléfono</label>
+        <label for="cong-phone">Teléfono</label>
         <input type="text" id="cofg-phone">
       </div>
       <div class="field financiamiento">
         <input type="checkbox" id="cofg-finances">
-        <label for="cofg-finances">Interesado en financiamiento</label>
+        <label for="cong-finances">Interesado en financiamiento</label>
       </div>
       <div class="field submit">
         <button class="submit">Enviar</button>
