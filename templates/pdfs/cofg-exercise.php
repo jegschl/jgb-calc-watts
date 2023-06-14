@@ -27,9 +27,13 @@
     }
 
 </style>
+<?php 
+    $img_logo_url = site_url('/wp-content/uploads/2023/04/LogoRayssa.png');
+    $img_logo_url = apply_filters('rayssa_pdf_img_logo_url',$img_logo_url);
+?>
 <page>
     <div class="logo">
-        <img src="http://rayssa.local/wp-content/uploads/2023/04/LogoRayssa.png">
+        <img src="<?=  $img_logo_url ?>">
     </div>
 
     <h1>Solicitud de cálculo OffGrid</h1>
