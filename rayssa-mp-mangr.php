@@ -160,8 +160,9 @@ class RayssaMailPdf{
     }
 
     private function email_subject(){
-        $subject = "Rayssa.cl :: Solicitud de cálculo Off Grid";
-        $subject = apply_filters('rayssa_email_subject_cofg',$subject);
+        $subject  = "Rayssa.cl :: Solicitud de cálculo ";
+        $subject .= $this->calc_type == 'offgrid' ? 'Off Grid' : 'On Grid';
+        $subject = apply_filters('rayssa_email_subject_'.$this->calc_type, $subject);
         return $subject;
     }
 
@@ -355,7 +356,7 @@ class RayssaMailPdf{
 
         $this->pdf_generate();
         
-        $esr['emailSnetOk'] = $this->try_send_mails();
+        $esr['emailSentOk'] = $this->try_send_mails();
         $sid = $this->data['excerciseSsnId'];
         if($esr['emailSentOk']){
             $this->ssn_mngr->set_status_processed_ok($sid);
