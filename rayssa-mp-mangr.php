@@ -10,10 +10,13 @@ class RayssaMailPdf{
     private $data;
     private $contact;
     private $artifacts;
+    private $cong_input;
 
     private $pdf_generated_file_path;
     private $pdf_generated_down_link;
     private $pdf_html_tpl_src;
+
+    private $calc_type;
 
     private RayssaExcerciseSsnMangr $ssn_mngr;
 
@@ -28,9 +31,7 @@ class RayssaMailPdf{
         add_action('rayssa_email_content_header', [$this,'email_content_header']);
         add_action('rayssa_email_content_body', [$this,'email_content_body']);
         add_action('rayssa_email_content_footer', [$this,'email_content_footer']);
-        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_contact']);
-        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_artifacts_items']);
-        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_calc_results']);
+       
     }
 
     private function pdf_download_path(){
@@ -197,8 +198,11 @@ class RayssaMailPdf{
             $template =  __DIR__ . '/templates/emails/html-content-body.php';
         }
 
+        $title = 'Cálculo ';
+        $title.= $this->calc_type == 'offgrid' ? 'Off Grid' : 'On Grid';
+
         $args = [
-            'content-title' => 'Cálculo Off Grid'
+            'content-title' => $title
         ];
 
         ob_start();
@@ -245,12 +249,26 @@ class RayssaMailPdf{
         echo ob_get_clean();
     }
 
-    public function email_content_data_calc_results(){
-        $tplp = 'rayssa/emails/html-cofg-calc-results.php';
+    public function email_content_data_cong_input(){
+        $tplp = 'rayssa/emails/html-cong-input-dt.php';
         $template = locate_template( $tplp );
 
         if (empty( $template ) ) {
-            $template =  __DIR__ . '/templates/emails/html-cofg-calc-results.php';
+            $template =  __DIR__ . '/templates/emails/html-cong-input-dt.php';
+        }
+
+        ob_start();
+        load_template($template,false,$this->cong_input);
+        echo ob_get_clean();
+    }
+
+    public function email_content_data_calc_results(){
+        $ctrbtn = $this->calc_type == 'offgrid' ? 'cofg' : 'cong';
+        $tplp = 'rayssa/emails/html-'.$ctrbtn.'-calc-results.php';
+        $template = locate_template( $tplp );
+
+        if (empty( $template ) ) {
+            $template =  __DIR__ . '/templates/emails/html-'.$ctrbtn.'-calc-results.php';
         }
 
         $cr = $this->data;
@@ -286,6 +304,15 @@ class RayssaMailPdf{
         $email   = explode(',',$this->contact['email']);
         $email   = apply_filters('rayssa_email_recipents',$email);
         $pp      = $this->pdf_generated_file_path;
+
+        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_contact']);
+        if( $this->calc_type == 'offgrid'){
+            add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_artifacts_items']);
+        } else {
+            add_Action('rayssa_mail_content_body_inner',[$this,'email_content_data_cong_input']);
+        }
+        add_action('rayssa_mail_content_body_inner',[$this,'email_content_data_calc_results']);
+
         $content = $this->get_email_content_for_requester();
         
 
@@ -299,15 +326,33 @@ class RayssaMailPdf{
         /* faltan validaciones del lado del 
            server. */
         $this->data = $data;
+        $this->calc_type = rayssa_get_calc_type();
+
         $this->contact = $data['contact'];
-        $this->artifacts = $data['artifacts'];
+        
+        if( $this->calc_type == 'offgrid' ){
+            $this->artifacts = $data['artifacts'];
+        } else {
+            $this->cong_input = [
+                'pwr'       => $data['pwr'],
+                'qty'       => $data['qty'],
+                'hsp'       => $data['hsp'],
+                'region'    => $data['region'],
+                'whbd'      => $data['whbd'],
+                'kwhbd'     => $data['kwhbd'],
+                'kwhbm'     => $data['kwhbm'],
+                'discbm'    => $data['discbm'],
+                'discby'    => $data['discby']
+            ];
+        }
+
         $esr = [];
 
         $this->pdf_generate();
         
         $esr['emailSnetOk'] = $this->try_send_mails();
         $sid = $this->data['excerciseSsnId'];
-        if($esr['emailSnetOk']){
+        if($esr['emailSentOk']){
             $this->ssn_mngr->set_status_processed_ok($sid);
         } else {
             $this->ssn_mngr->set_status_processed_fail($sid);
