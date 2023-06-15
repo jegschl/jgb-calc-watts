@@ -130,12 +130,12 @@ class RayssaMailPdf{
     }
 
     private function pdf_load_template(){
-
-        $tplp = 'rayssa/pdfs/cofg-exercise.php';
+        $ctrbtn = $this->calc_type == 'offgrid' ? 'cofg' : 'cong';
+        $tplp = 'rayssa/pdfs/'.$ctrbtn.'-exercise.php';
         $template = locate_template( $tplp );
 
         if (empty( $template ) ) {
-            $template =  __DIR__ . '/templates/pdfs/cofg-exercise.php';
+            $template =  __DIR__ . '/templates/pdfs/'.$ctrbtn.'-exercise.php';
         }
 
         ob_start();
