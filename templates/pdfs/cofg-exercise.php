@@ -12,18 +12,59 @@
         color: #7A7A7A;
     }
 
-    .contact-data td{
+    table.contact-data,
+    table.artifacts{border-collapse:collapse;}
+
+    table.contact-data td{
+        width: 170px;
         padding: 5px;
+        
+    }
+    table.artifacts td{
+        width: 114px;
+        padding: 3px;
+        
     }
 
-    .contact-data-table-wrapper{
-        text-align: center;
+    table.contact-data, table.contact-data th, table.contact-data td,
+    table.artifacts, table.artifacts th, table.artifacts td{
+        border: 1px solid;
     }
 
-    table.results td.calc-results{
+    table.results td.calc-result{
+        width: 381px;
         text-align: center;
-        background-color: #094B82; 
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #094B82;
         color: #ffffff;
+    } 
+    table.results-s2 td.calc-result{
+        width: 381px;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #EC763E;
+        color: #ffffff;
+    }
+
+    table.results-s3 td.calc-result{
+        width: 381px;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #6EC1E4; 
+        color: #54595F;
+    }
+
+    td.calc-result .monthly, td.calc-result .yearly{
+        display: block;
+        text-align: center;
+    }
+
+    td.calc-result span.title{
+        display: block;
+        text-align: center;
     }
 
 </style>
@@ -68,7 +109,7 @@
 
         <thead>
             <tr>
-                <td>Nombre</td>
+                <td>Nombre artefacto</td>
                 <td>Cantidad</td>
                 <td>Potencia</td>
                 <td>Tiempo de uso diario</td>
@@ -90,14 +131,13 @@
     $consumoDiario = number_format( $args['daylyConsumtion'], 2, ",","." );
     $pwrPicoNecsr  = number_format( $args['peakPowerRequired'], 2, ",","." );
 
-    $anchoCRCol = "350";
     ?>
 
     <h2>Resultados del cálculo</h2>
     <table class="results">
         <tbody>
             <tr>
-                <td class="calc-result daylytotalKWatts" width="<?= $anchoCRCol ?>" style="background-color:lightblue; text-align: center; color: white;">
+                <td class="calc-result daylytotalKWatts" >
                     
                         <span class="title">Consumo diario:</span>
                         <span class="value"><?= $consumoDiario ?></span>
@@ -105,7 +145,7 @@
 
                     
                 </td>
-                <td class="calc-result nominalCapacity" width="<?= $anchoCRCol ?>">
+                <td class="calc-result nominalCapacity">
                     
                         <span class="title">Capacidad neta:</span>
                         <span class="value"><?= number_format( $args['nominalCap'], 2, ",","." ) ?></span>
@@ -115,7 +155,7 @@
             </tr>
 
             <tr>
-                <td class="calc-result bruteCapacity" width="<?= $anchoCRCol ?>">
+                <td class="calc-result bruteCapacity">
                     
                         <span class="title">Capacidad bruta:</span>
                         <span class="value"><?= number_format( $args['bruteCap'], 2, ",","." ) ?></span>
@@ -123,27 +163,109 @@
                    
                     
                 </td>
-                <td class="calc-result hourly-amperage-container" width="<?= $anchoCRCol ?>">
+                <td class="calc-result hourly-amperage-container" >
                     
-                        <div class="amp-12v">
-                            <span class="title">12v:</span>
-                            <span class="value"><?= number_format( $args['ha12v'], 2, ",","." ) ?></span>
-                            <span class="unit">ah</span>
-                        </div>
-
-                        <div class="amp-24v">
-                            <span class="title">24v:</span>
-                            <span class="value"><?= number_format( $args['ha24v'], 2, ",","." ) ?></span>
-                            <span class="unit">ah</span>
-                        </div>
-
-                        <div class="amp-48v">
-                            <span class="title">48v:</span>
-                            <span class="value"><?= number_format( $args['ha48v'], 2, ",","." ) ?></span>
-                            <span class="unit">ah</span>
-                        </div>
+                        
+                    <span class="title">12v:</span>
+                    <span class="value"><?= number_format( $args['ha12v'], 2, ",","." ) ?></span>
+                    <span class="unit">ah</span>
+                
+                    /
+                
+                    <span class="title">24v:</span>
+                    <span class="value"><?= number_format( $args['ha24v'], 2, ",","." ) ?></span>
+                    <span class="unit">ah</span>
+                
+                    /
+                
+                    <span class="title">48v:</span>
+                    <span class="value"><?= number_format( $args['ha48v'], 2, ",","." ) ?></span>
+                    <span class="unit">ah</span>
+                        
                   
                 </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <table class="results-s2">
+        <tbody>
+            <tr>
+                <td class="calc-result hsp">
+                    
+                        <span class="title">Región:</span>
+                        <span class="value"><?= $args['hsp']['region'] ?></span>
+                        <span class="unit"></span>
+                   
+                    
+                </td>
+                <td class="calc-result peak-pwr-req" >
+                    
+                        
+                    <span class="title">Potencia pico necesaria:</span>
+                    <span class="value"><?= number_format( $args['peakPowerRequired'], 2, ",","." ) ?></span>
+                    <span class="unit"></span>
+                        
+                  
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <table class="results-s3">
+        <tbody>
+            <tr>
+                <td class="calc-result panel">
+                    
+                        <span class="title">Panel 335/340w:</span>
+                        <span class="value"><?= $args['pc335_340w'] ?></span>
+                        <span class="unit">unidades</span>
+                   
+                    
+                </td>
+                <td class="calc-result panel" >
+                    
+                        
+                    <span class="title">Panel 445/450w:</span>
+                    <span class="value"><?= $args['pc445_450w'] ?></span>
+                    <span class="unit">unidades</span>
+                        
+                  
+                </td>
+            </tr>
+
+            <tr>
+                <td class="calc-result panel">
+                    
+                        <span class="title">Panel 550/560w:</span>
+                        <span class="value"><?= $args['pc550_560w'] ?></span>
+                        <span class="unit">unidades</span>
+                   
+                    
+                </td>
+                <td class="calc-result panel" >
+                    
+                        
+                    <span class="title">Panel 600/610w:</span>
+                    <span class="value"><?= $args['pc600_610w'] ?></span>
+                    <span class="unit">unidades</span>
+                        
+                  
+                </td>
+            </tr>
+
+            <tr>
+                <td class="calc-result panel" colspan="2">
+                    
+                        <span class="title">Panel 650/660w:</span>
+                        <span class="value"><?= $args['pc650_660w'] ?></span>
+                        <span class="unit">unidades</span>
+                   
+                    
+                </td>
+                
             </tr>
 
         </tbody>
