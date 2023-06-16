@@ -111,6 +111,13 @@
       <div class="field financiamiento">
         <input type="checkbox" id="cong-finances">
         <label for="cong-finances">Interesado en financiamiento</label>
+        <div class="salvum-finantials">
+            <img src="/wp-content/uploads/2023/06/salvum_logo-300x130-1.jpg" alt="Salvum">
+            <ul>
+              <li class="cuotas">Hasta 72 cuotas.</li>
+              <li class="evaluacion-crediticia">Sujeto a evaluación crediticia.</li>
+            </ul>
+        </div>
       </div>
       <div class="field submit">
         <button class="submit">Enviar</button>

@@ -57,6 +57,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    width: 500px;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field.financiamiento .salvum-finantials{
+    display: flex;
+    justify-content: space-around;
+    width: 300px;
+    flex-wrap: nowrap;
+    width: 290px;
+    font-size: 12px;
+    align-items: center;
+}
+
+.rayssa-calc-ongrid .contact-data-container .salvum-finantials img{
+    width: 100px;
+    border: 2px solid #2d3f84;
+    border-radius: 9px;
+}
+
+.rayssa-calc-ongrid .contact-data-container .salvum-finantials li{
+    font-weight: 700;
+}
+
+.rayssa-calc-ongrid .contact-data-container .salvum-finantials li.cuotas{
+    font-size:15px;
 }
 
 .rayssa-calc-ongrid .contact-data-container .field.submit,
