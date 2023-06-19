@@ -210,3 +210,7 @@
     margin-right: 8px;
     margin-bottom: 5px;
 }
+
+.rayssa-calc-offgrid .select2-container--default .select2-selection--single {
+    border-radius:25px !important;
+}

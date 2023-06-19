@@ -114,3 +114,8 @@
 .rayssa-calc-ongrid .contact-data-container .field input[type="text"] {
     text-align: center;
 }
+
+.rayssa-calc-ongrid .select2-container--default .select2-selection--single {
+    border-radius:25px !important;
+}
+   
