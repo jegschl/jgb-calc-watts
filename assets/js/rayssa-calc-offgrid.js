@@ -73,6 +73,9 @@ jQuery( function( $ ) {
                 });
         });
 
+        $(rayssaCalcOffGridSlctr + ' #region-selector').niceSelect('destroy');
+        $(rayssaCalcOffGridSlctr + ' #region-selector').select2();
+
         $(rayssaCalcOffGridSlctr + ' #region-selector').change(function(){
             calcOffGridUIParser.calculate();
         });
