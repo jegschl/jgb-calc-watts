@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li class="elementor-icon-list-item elementor-inline-item">
-                <a href="https://api.whatsapp.com/send/?phone=56971317677&text&type=phone_number&app_absent=0">
+                <a href="https://api.whatsapp.com/send/?phone=56982962823&text&type=phone_number&app_absent=0">
                     <span class="elementor-icon-list-icon">
                         <i aria-hidden="true" class="fab fa-whatsapp"></i>
                     </span>
