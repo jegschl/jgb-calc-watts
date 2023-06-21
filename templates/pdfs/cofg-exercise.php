@@ -86,9 +86,7 @@
 
 </style>
 
-<page backcolor="#D0E3F9"
-    footer="date;time;page"
->
+<page backcolor="#D0E3F9" footer="date;time;page">
     <div class="main-container">
         <div class="logo">
             <img src="<?=  $img_logo_url ?>">
