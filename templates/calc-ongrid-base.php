@@ -74,13 +74,13 @@
       <div class="calc-result discount">
 
         <div class="by-month">
-          <span class="title">Descuento mensual:</span>
+          <span class="title">Descuento promedio mensual:</span>
           <span class="value"></span>
           <span class="unit">$</span>
         </div>
 
         <div class="by-year">
-          <span class="title">Descuento anual:</span>
+          <span class="title">Descuento promedio anual:</span>
           <span class="value"></span>
           <span class="unit">$</span>
         </div>

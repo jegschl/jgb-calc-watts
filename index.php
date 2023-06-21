@@ -121,7 +121,7 @@ function rayssa_localize_scripts( $ecsid, $calc_type ){
 
         $calc_config = [
             'autonomia'  => apply_filters('rayssa_calc_cfg_autonomia',2),
-            'dod'        => apply_filters('rayssa_calc_cfg_dod',55/100),
+            'dod'        => apply_filters('rayssa_calc_cfg_dod',60/100),
             'eficiencia' => apply_filters('rayssa_calc_cfg_eficiancia',0.86)
         ];
         
