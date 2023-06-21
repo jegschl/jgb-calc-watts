@@ -122,6 +122,9 @@
       <div class="field submit">
         <button class="submit">Enviar</button>
       </div>
+      <div class="field warning">
+        <p>Ten presente que nos estás entregando algunos datos personales por los que nuestros ejecutivos podrían contactarte en el futuro.</p>
+      </div>
     </div>
 
   </div>

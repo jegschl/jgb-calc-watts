@@ -13,19 +13,19 @@
         data-category="<?php echo esc_attr($args['category']); ?>"
 >
     
-  <table class="items">
-    <thead>
-      <tr>
-        <th>Artefacto eléctrico</th>
-        <th>Cantidad</th>
-        <th>Potencia (Watts)</th>
-        <th>Tiempo de uso diario</th>
-        <th>KW/h día</th>
-        <th>KW/h mes</th>
-        <th>Eliminar</th>
+  <table class="items" role="table">
+    <thead role="rowgroup">
+      <t role="row"r>
+        <th role="columnheader">Artefacto eléctrico</th>
+        <th role="columnheader">Cantidad</th>
+        <th role="columnheader">Potencia (Watts)</th>
+        <th role="columnheader">Tiempo de uso diario</th>
+        <th role="columnheader">KW/h día</th>
+        <th role="columnheader">KW/h mes</th>
+        <th role="columnheader">Eliminar</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody role="rowgroup"></tbody>
   </table>
   <div class='actions'>
     
@@ -178,6 +178,9 @@
       </div>
       <div class="field submit">
         <button class="submit">Enviar</button>
+      </div>
+      <div class="field warning">
+        <p>Ten presente que nos estás entregando algunos datos personales por los que nuestros ejecutivos podrían contactarte en el futuro.</p>
       </div>
     </div>
 
