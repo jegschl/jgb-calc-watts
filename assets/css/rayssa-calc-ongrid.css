@@ -37,6 +37,9 @@
     margin-bottom: 60px;
 }
 
+.rayssa-calc-ongrid .contact-data-container{
+    width: 500px;
+}
 
 .rayssa-calc-ongrid .contact-data-container .field.submit button {
 	background-color: #EC763E;
@@ -101,6 +104,11 @@
     min-height: 0px;
     margin-right: 8px;
     margin-bottom: 5px;
+}
+
+.rayssa-calc-ongrid .contact-data-container .field.warning,
+.rayssa-calc-ongrid .contact-data-container .field.warning p{
+    width: 100%;
 }
 
 .rayssa-calc-ongrid table.items input,
