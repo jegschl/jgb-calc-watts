@@ -48,7 +48,22 @@ function rayssa_add_type_attribute($tag, $hnd, $src) {
 
 
 function rayssa_enqueue_scripts($ecsid){
-   
+    // Detecta el directorio del plugin.
+    $plg_dir_url = plugin_dir_url(__FILE__);
+
+    $js_prfx =  $plg_dir_url . 'assets/js/';
+
+    $node_mods_prfx = $js_prfx . 'node_modules/';
+
+    $css_prfx = $plg_dir_url . 'assets/css/';
+
+    $plg_dir_path =  plugin_dir_path( __FILE__ );
+
+    $js_path_prfx = $plg_dir_path . 'assets/js/';
+
+    $css_path_prfx = $plg_dir_path . 'assets/css/';
+    
+
     // Encola jQuery UI y su dependencia jQuery
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-sortable');
@@ -58,52 +73,82 @@ function rayssa_enqueue_scripts($ecsid){
 
     wp_enqueue_script(
         'rayssa-js-cookie',
-        plugin_dir_url(__FILE__) . 'assets/js/node_modules/js-cookie/dist/js.cookie.min.js',
+        $node_mods_prfx . 'js-cookie/dist/js.cookie.min.js',
         '3.0.5',
         true
     );
 
+    $script_bs_id = 'rayssa-calc';
+    $script_id = $script_bs_id . '-css';
+    $flnm = $script_bs_id . '.css';
+    $cfl = $css_path_prfx . $flnm;
+    $tvrs = filemtime( $cfl );
     wp_enqueue_style(
-        'rayssa-calc-css', 
-        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc.css',
+        $script_id, 
+        $css_prfx . $flnm,
+        null,
+        $tvrs
     );
 
+    $script_bs_id = 'rayssa-calc-result-procd';
+    $script_id = $script_bs_id . '-css';
+    $flnm = $script_bs_id . '.css';
+    $cfl = $css_path_prfx . $flnm;
+    $tvrs = filemtime( $cfl );
     wp_enqueue_style(
-        'rayssa-calc-result-procd-css', 
-        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc-result-procd.css',
-     );
+        $script_id, 
+        $css_prfx . $flnm,
+        null,
+        $tvrs
+    );
 
     $ct = rayssa_get_calc_type();
+    $script_bs_id = 'rayssa-calc-'.$ct;
+    $script_id = $script_bs_id . '-css';
+    $flnm = $script_bs_id . '.css';
+    $cfl = $css_path_prfx . $flnm;
+    $tvrs = filemtime( $cfl );
     wp_enqueue_style(
-        'rayssa-calc-'.$ct.'-css', 
-        plugin_dir_url(__FILE__) . 'assets/css/rayssa-calc-'.$ct.'.css',
-     );
+        $script_id, 
+        $css_prfx . $flnm,
+        null,
+        $tvrs
+    );
 
+    $script_bs_id = 'ui-parser-'.$ct;
+    $script_id = $script_bs_id . '-js';
+    $flnm = $script_bs_id . '.js';
+    $cfl = $js_path_prfx . $flnm;
+    $tvrs = filemtime( $cfl );
     wp_enqueue_script(
-        'ui-parser-'.$ct.'-js',
-        plugin_dir_url(__FILE__) . 'assets/js/ui-parser-'.$ct.'.js',
+        $script_id,
+        $js_prfx . $flnm,
         array('jquery'),
-        '1.0.0',
+        $tvrs,
+        true
+    );
+
+    $script_bs_id = 'rayssa-calc-'.$ct;
+    $script_id = $script_bs_id . '-js';
+    $flnm = $script_bs_id . '.js';
+    $cfl = $js_path_prfx . $flnm;
+    $tvrs = filemtime( $cfl );
+    wp_enqueue_script(
+        $script_id,
+        $js_prfx . $flnm,
+        array('jquery', 'jquery-ui-sortable','rayssa-select2-js','ui-parser-'.$ct.'-js','rayssa-jq-blockui-js'),
+        $tvrs,
         true
     );
 
     wp_enqueue_script(
         'rayssa-jq-blockui-js',
-        plugin_dir_url(__FILE__) . 'assets/js/jquery-blockui-2.70.0.js',
+        $js_prfx . 'jquery-blockui-2.70.0.js',
         array('jquery'),
         '2.70.0',
         true
     );
 
-    wp_enqueue_script(
-        'rayssa-calc-'.$ct.'-js',
-        plugin_dir_url(__FILE__) . 'assets/js/rayssa-calc-'.$ct.'.js',
-        array('jquery', 'jquery-ui-sortable','rayssa-select2-js','ui-parser-'.$ct.'-js','rayssa-jq-blockui-js'),
-        '1.0.0',
-        true
-    );
-
-    
     rayssa_localize_scripts( $ecsid, $ct );
     
 }
