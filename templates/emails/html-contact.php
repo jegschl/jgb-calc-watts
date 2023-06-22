@@ -4,19 +4,23 @@
         <thead>
             <tr>
                 <td>Nombres y apellidos</td>
-                <td>Email</td>
                 <td>Nro. telefónico</td>
-                <td>Comuna</td>
                 <td>Financiamiento</td>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong><?= $args['names'] ?></strong></td>
-                <td><strong><?= $args['email'] ?></strong></td>
                 <td><strong><?= $args['phone'] ?></strong></td>
-                <td><strong><?= $args['comuna'] ?></strong></td>
                 <td><strong><?= $args['finantial'] ?></strong></td>
+            </tr>
+            <tr>
+                <td colspan="2">Email</td>
+                <td>Comuna</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong><?= $args['email'] ?></strong></td>
+                <td><strong><?= $args['comuna'] ?></strong></td>
             </tr>
         </tbody>
         

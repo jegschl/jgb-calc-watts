@@ -64,7 +64,8 @@
             text-align: center; 
             border-collapse: separate;
             border-spacing: 1;  }
-        table.contact-data thead {
+        table.contact-data thead,
+        table.contact-data tbody tr:nth-of-type(even) td {
             background: #094B82; 
             color: white; }
         table.contact-data thead td { padding: 5px 8px; }
