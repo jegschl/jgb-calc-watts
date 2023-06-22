@@ -165,6 +165,10 @@
         <label for="cofg-phone">Teléfono</label>
         <input type="text" id="cofg-phone">
       </div>
+      <div class="field comuna">
+        <label for="cofg-comuna">Comuna</label>
+        <input type="text" id="cofg-comuna">
+      </div>
       <div class="field financiamiento">
         <input type="checkbox" id="cofg-finances">
         <label for="cofg-finances">Interesado en financiamiento</label>

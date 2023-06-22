@@ -108,6 +108,10 @@
         <label for="cong-phone">Teléfono</label>
         <input type="text" id="cong-phone">
       </div>
+      <div class="field comuna">
+        <label for="cong-comuna">Comuna</label>
+        <input type="text" id="cong-comuna">
+      </div>
       <div class="field financiamiento">
         <input type="checkbox" id="cong-finances">
         <label for="cong-finances">Interesado en financiamiento</label>

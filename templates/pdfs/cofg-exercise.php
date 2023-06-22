@@ -27,7 +27,7 @@
     table.artifacts{border-collapse:collapse;}
 
     table.contact-data td{
-        width: 170px;
+        width: 235px;
         padding: 5px;
         
     }
@@ -100,7 +100,6 @@
                 <thead>
                     <tr>
                         <td>Nombres y apellidos</td>
-                        <td>Email</td>
                         <td>Nro. telefónico</td>
                         <td>Financiamiento</td>
                     </tr>
@@ -108,9 +107,16 @@
                 <tbody>
                     <tr>
                         <td><strong>{nombresApellidos}</strong></td>
-                        <td><strong>{email}</strong></td>
                         <td><strong>{telefono}</strong></td>
                         <td><strong>{financiamiento}</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Email</td>
+                        <td>Comuna</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>{email}</strong></td>
+                        <td><strong>{comuna}</strong></td>
                     </tr>
                 </tbody>
                 

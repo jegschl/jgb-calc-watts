@@ -68,6 +68,7 @@ class RayssaMailPdf{
             '{nombresApellidos}' => 'names',
             '{email}'            => 'email',
             '{telefono}'         => 'phone',
+            '{comuna}'           => 'comuna',
             '{financiamiento}'   => 'finantial'
         ];
 

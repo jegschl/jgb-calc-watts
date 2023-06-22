@@ -215,6 +215,7 @@ jQuery( function( $ ) {
                 'names': $('#cofg-names').val(),
                 'email': $('#cofg-email').val(),
                 'phone': $('#cofg-phone').val(),
+                'comuna': $('#cofg-comuna').val(),
                 'finantial':  finantial
             };
            return this.#dts;

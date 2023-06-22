@@ -24,7 +24,12 @@
     table.contact-data,
     table.panels{border-collapse:collapse;}
 
-    table.contact-data td,
+    table.contact-data td{
+        width: 235px;
+        padding: 5px;
+        
+    }
+    
     table.panels td{
         width: 170px;
         padding: 5px;
@@ -78,10 +83,9 @@
         <h2>Datos del solicitante</h2>
         <div class="contact-data-table-wrapper">
             <table class="contact-data">
-                <thead>
+            <thead>
                     <tr>
                         <td>Nombres y apellidos</td>
-                        <td>Email</td>
                         <td>Nro. telefónico</td>
                         <td>Financiamiento</td>
                     </tr>
@@ -89,9 +93,16 @@
                 <tbody>
                     <tr>
                         <td><strong>{nombresApellidos}</strong></td>
-                        <td><strong>{email}</strong></td>
                         <td><strong>{telefono}</strong></td>
                         <td><strong>{financiamiento}</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Email</td>
+                        <td>Comuna</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>{email}</strong></td>
+                        <td><strong>{comuna}</strong></td>
                     </tr>
                 </tbody>
                 

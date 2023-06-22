@@ -109,6 +109,7 @@ jQuery( function( $ ) {
                 'names': $('#cong-names').val(),
                 'email': $('#cong-email').val(),
                 'phone': $('#cong-phone').val(),
+                'comuna': $('#cong-comuna').val(),
                 'finantial':  finantial
             };
            return this.#dts;
