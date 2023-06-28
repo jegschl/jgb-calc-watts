@@ -183,9 +183,9 @@
         Label the data
         You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
     */
-    table.items td:nth-of-type(1):before { content: "Artefacto"; }
+    table.items td:nth-of-type(1):before { content: "Panel solar"; }
     table.items td:nth-of-type(2):before { content: "Cantidad"; }
-    table.items td:nth-of-type(3):before { content: "Portencia"; }
+    table.items td:nth-of-type(3):before { content: "Potencia"; }
     table.items td:nth-of-type(4):before { content: "Tiempo de uso"; }
     table.items td:nth-of-type(5):before { content: "KW/h día"; }
     table.items td:nth-of-type(6):before { content: "KW/h mes"; }
